@@ -5,11 +5,11 @@ public class CardDriver
 {
    public static void main(String[] args)
    {
-      // Card c = new Card(1, 12);
-      // System.out.println(c);
+       Card c = new Card(1, 12);
+       System.out.println(c);
        
-      // Card c1 = new Card(Card.CLUBS, Card.KING);
-      // System.out.println(c1);
+       Card c1 = new Card(Card.CLUBS, Card.KING);
+       System.out.println(c1);
       
       // CardDeck cd = new CardDeck();
       // cd.printDeck(); 	
@@ -42,6 +42,7 @@ class CardDeck
     */
    public Card getTopCard() 
    {  
+      return myCards.getNext().getValue();
       
    }
    
@@ -49,12 +50,24 @@ class CardDeck
     */
    private void putAtEnd(Card c)
    {
-   
+      if(myCards == null){
+         myCards = new ListNode(c,null);
+         myCards.setNext(myCards);
+      }else{
+         ListNode t = new ListNode(c,myCards.getNext());
+         myCards.setNext(t);
+         myCards = t;
+      }
    }
    
    public void printDeck()
    {
-   
+      ListNode pointer = myCards.getNext();
+      do{
+         System.out.print(pointer.getValue().toString() + ", ");
+         pointer = pointer.getNext();
+      }while(pointer != myCards.getNext();
+      
    }
    	
 	/*  splits this deck into two almost equal halves;
@@ -65,7 +78,14 @@ class CardDeck
 	 */
    private ListNode split()
    {
-   
+      int index = (int)(16 + Math.random() * (36-16+1));
+      ListNode pointer = myCards.getNext();
+      for(int i=0;i<index;i++){
+         pointer = pointer.getNext();
+      }
+      ListNode second = pointer.getNext();
+      pointer.setNext(null);
+      return second;
    }
       
    /*  combines the cards from cards1 and cards2 into one list.
