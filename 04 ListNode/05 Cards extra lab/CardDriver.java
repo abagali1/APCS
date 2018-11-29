@@ -11,15 +11,15 @@ public class CardDriver
        Card c1 = new Card(Card.CLUBS, Card.KING);
        System.out.println(c1);
       
-      // CardDeck cd = new CardDeck();
-      // cd.printDeck(); 	
+       CardDeck cd = new CardDeck();
+       cd.printDeck(); 	
    
-      // System.out.println(cd.getTopCard());
-      // System.out.println();
-      // cd.printDeck();
+       System.out.println(cd.getTopCard().toString());
+       System.out.println();
+       cd.printDeck();
       
-      // cd.shuffle(5);
-      // cd.printDeck();    
+       cd.shuffle(5);
+       cd.printDeck();    
    }
 }
 
@@ -42,7 +42,11 @@ class CardDeck
     */
    public Card getTopCard() 
    {  
-      return myCards.getNext().getValue();
+      Object t =myCards.getValue();
+      ListNode next = myCards.getNext();
+      myCards.setNext(null);
+      myCards = next;
+      return (Card)t;
       
    }
    
@@ -52,21 +56,19 @@ class CardDeck
    {
       if(myCards == null){
          myCards = new ListNode(c,null);
-         myCards.setNext(myCards);
       }else{
          ListNode t = new ListNode(c,myCards.getNext());
          myCards.setNext(t);
-         myCards = t;
       }
    }
    
    public void printDeck()
    {
-      ListNode pointer = myCards.getNext();
-      do{
-         System.out.print(pointer.getValue().toString() + ", ");
-         pointer = pointer.getNext();
-      }while(pointer != myCards.getNext();
+      ListNode pointer = myCards;
+      for(pointer = myCards;pointer.getNext() != null;pointer=pointer.getNext()){
+         System.out.print(pointer.getValue().toString()+", ");         
+      }
+      System.out.print(pointer.getValue()+"\n");
       
    }
    	
@@ -79,7 +81,7 @@ class CardDeck
    private ListNode split()
    {
       int index = (int)(16 + Math.random() * (36-16+1));
-      ListNode pointer = myCards.getNext();
+      ListNode pointer = myCards;
       for(int i=0;i<index;i++){
          pointer = pointer.getNext();
       }
@@ -96,7 +98,28 @@ class CardDeck
 	 */
    private ListNode combine(ListNode cards1, ListNode cards2)
    {
-   
+      ListNode result = cards1;
+      for(cards1 = cards1.getNext();cards1 != null;cards1=cards1.getNext()){
+         
+         
+         result.setNext(cards2);
+         result = result.getNext();
+         result.setNext(cards1);
+         result = result.getNext();
+         
+         
+         cards2 = cards2.getNext();
+         
+         
+      }
+      if(cards2 != null){
+         for(cards2 = cards2;cards2!=null;cards2=cards2 = cards2.getNext()){
+            result.setNext(cards2);
+            result = result.getNext();
+         } 
+      }
+      return result;
+      
    }
       
       
@@ -105,7 +128,10 @@ class CardDeck
 	 */
    public void shuffle(int numTimes)
    {
-   
+      for(int i=0;i<numTimes;i++){
+         ListNode second = split();
+         myCards = combine(myCards,second);
+      }
    }
 }
 
