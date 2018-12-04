@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 12/4/18
 
 import java.io.File;     
 import java.util.ArrayList;
@@ -13,55 +13,61 @@ public class SortingWidgets
 {
    public static void main(String[] args) throws Exception
    {
-      Comparable[] apple = input("widgets.txt");  
+      /*Comparable[]*/ArrayList<Comparable> apple = input("widgets.txt");  
       sort(apple);
       output(apple);
    }
    
-   public static Comparable[] input(String filename) throws Exception
+   public static ArrayList<Comparable>/*Comparable[]*/ input(String filename) throws Exception
    {
       Scanner infile = new Scanner( new File(filename) );
-      Comparable[] array = new Comparable[57];	
+      /*Comparable[] array = new Comparable[57];	
       for(int k =0; k<57; k++)    		    //use a while-loop
       {								  
          int x = infile.nextInt();
          int y = infile.nextInt();
          array[k] = new Widget(x, y);      //don't use an index number
+      }*/
+      ArrayList<Comparable> array = new ArrayList<Comparable>();
+      while(infile.hasNext()){
+         array.add(new Widget(infile.nextInt(),infile.nextInt()));
       }
+      
       infile.close();
       return array;
    }
    
-   public static void sort(Comparable[] array)
+   public static void sort(/*Comparable[]*/ArrayList<Comparable> array)
    {
       int maxPos;
-      for(int k = 0; k < array.length; k++)		
+      for(int k = 0; k < array.size()/*length*/; k++)		
       {
-         maxPos = findMax(array, array.length - k - 1);
-         swap(array, maxPos, array.length - k - 1);
+         maxPos = findMax(array, array.size()/*length*/ - k - 1);
+         swap(array, maxPos, array.size()/*length*/ - k - 1);
       }
    }
    
-   public static int findMax(Comparable[] array, int upper)
+   public static int findMax(/*Comparable[]*/ArrayList<Comparable> array, int upper)
    {
       int maxPos = 0;
       for(int j = 1; j <= upper; j++)			
-         if(array[j].compareTo(array[maxPos]) > 0)	
+         if(array.get(j).compareTo(array.get(maxPos)) > 0)
+         //if(array.get(j)/*[j]*/.compareTo(array.get(maxPos)/*[maxPos]*/) > 0)	
             maxPos = j;					
       return maxPos;
    }
    
-   public static void swap(Comparable[] array, int a, int b)
+   public static void swap(/*Comparable[]*/ArrayList<Comparable> array, int a, int b)
    {
-      Comparable temp = array[a];				
-      array[a] = array[b];
-      array[b] = temp;
+      Comparable temp = array.get(a)/*[a]*/;				
+      array.set(a,b);//[a] = array[b];
+      array.set(b,temp);//[b] = temp;
    }
    
-   public static void output(Object[] array)
+   public static void output(/*Object[]*/ArrayList<Comparable> array)
    {
-      for(int k = 0; k < array.length; k++)		//use the for-each loop
-         System.out.println(array[k]);
+      for(int k = 0; k < array.size()/*length*/; k++)		//use the for-each loop
+         System.out.println(array.get(k)/*[k]*/);
    }
 }
 
