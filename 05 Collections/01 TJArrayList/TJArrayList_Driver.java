@@ -51,12 +51,13 @@ class TJArrayList
    
    public TJArrayList()                //default constructor makes 10 cells
    {
-      
+      size = 0;
+      myArray = new Object[10];
    }
    
    public int size()
    {
-      
+      return size;
    }
  	
    /**
@@ -68,7 +69,21 @@ class TJArrayList
     */       
    public boolean add(Object obj)
    {
-      
+      if(size < myArray.length){
+         myArray[size] = obj;
+         size++;
+      }else{
+         int i = 0;
+         Object[] temp = myArray;
+         myArray = new Object[myArray.length*2];
+         for(i=0;i<=temp.length-1;i++){
+            myArray[i] = temp[i];
+         }
+         myArray[i+1] = obj;
+         size++;
+         
+      }
+      return true;
    }
        
    /**
@@ -80,7 +95,10 @@ class TJArrayList
       if(index > size || index < 0)
          throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
       
-      
+      int i=0;
+      for(i=0;i<index;i++);
+      myArray[i] = obj;
+      size++;
       
    }
    
@@ -92,7 +110,8 @@ class TJArrayList
    {
       if(index > size || index < 0)
          throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-     
+      
+      return myArray[index];
       
    }
    
@@ -104,8 +123,11 @@ class TJArrayList
    {
       if(index > size || index < 0)
          throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-     
-      
+      int i=0;
+      for(i=0;i<index;i++);
+      Object temp = myArray[i];
+      myArray[i] = obj;
+      return temp;
    }
        
    /**
@@ -118,7 +140,7 @@ class TJArrayList
    {
       if(index > size || index < 0)
          throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-     
+     return null;
       
    }
 	
@@ -128,7 +150,11 @@ class TJArrayList
     */     
    public boolean contains(Object obj)
    {
-      
+      boolean result = false;
+      for(Object o:myArray){
+         result = o.equals(obj);
+      }
+      return result;
    }
    
  
@@ -138,7 +164,14 @@ class TJArrayList
     */   
    public String toString()
    {
-      
+      int index = 0;
+      String result = "[";
+      while(myArray[index+1] != null){
+         result += myArray[index] +", ";
+         index++;
+      } 
+      result += myArray[index] + "]";
+      return result;       
    }
 }
 
