@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 12/4/18
 
 /**
  * Implements the List interface
@@ -72,14 +72,18 @@ class TJArrayList
       if(size < myArray.length){
          myArray[size] = obj;
          size++;
-      }else{
+      }
+      else{
          int i = 0;
-         Object[] temp = myArray;
+         Object[] temp = new Object[myArray.length];
+         for(i=0;i<temp.length;i++){
+            temp[i] = myArray[i];
+         }
          myArray = new Object[myArray.length*2];
          for(i=0;i<=temp.length-1;i++){
             myArray[i] = temp[i];
          }
-         myArray[i+1] = obj;
+         myArray[size] = obj;
          size++;
          
       }
@@ -95,9 +99,28 @@ class TJArrayList
       if(index > size || index < 0)
          throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
       
-      int i=0;
-      for(i=0;i<index;i++);
-      myArray[i] = obj;
+      if(size+1>myArray.length){
+         Object[] temp1 = new Object[myArray.length];
+         for(int i=0;i<temp1.length;i++){
+            temp1[i] = myArray[i];
+         }
+         myArray = new Object[myArray.length*2];
+         for(int i=0;i<temp1.length;i++){
+            myArray[i] = temp1[i];
+         }
+      }
+      
+      Object[] temp = new Object[myArray.length];
+      for(int i=0;i<temp.length;i++)
+         temp[i] = myArray[i];
+         
+      for(int i=index;i<myArray.length;i++){
+         myArray[i] = null;
+      }
+      myArray[index] = obj;
+      for(int i=index;i<myArray.length-1;i++){
+         myArray[i+1] = temp[i];
+      }
       size++;
       
    }
@@ -140,7 +163,17 @@ class TJArrayList
    {
       if(index > size || index < 0)
          throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-     return null;
+      Object prev = get(index);
+      Object[] temp = new Object[myArray.length];
+      for(int i=0;i<temp.length;i++){
+         temp[i] = myArray[i];
+      }
+      
+      for(int i=index;i<myArray.length-1;i++){
+         myArray[i] = myArray[i+1];
+      }
+      size--;
+      return prev;
       
    }
 	
@@ -152,7 +185,10 @@ class TJArrayList
    {
       boolean result = false;
       for(Object o:myArray){
-         result = o.equals(obj);
+         if(obj.equals(o)){
+            result = true;
+            return true;
+         }
       }
       return result;
    }
@@ -164,14 +200,13 @@ class TJArrayList
     */   
    public String toString()
    {
-      int index = 0;
+      int i = 0;
       String result = "[";
-      while(myArray[index+1] != null){
-         result += myArray[index] +", ";
-         index++;
-      } 
-      result += myArray[index] + "]";
-      return result;       
+      for(i=0;i<size()-1;i++){
+         result += get(i) + ", ";
+      }  
+      result += get(i) + "]";
+      return result;
    }
 }
 
