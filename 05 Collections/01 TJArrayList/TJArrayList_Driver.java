@@ -38,6 +38,12 @@ public class TJArrayList_Driver
       for(int i = 3; i <= 10; i++)
          myList.add(new Integer(i));
       System.out.println(myList);
+      myList.add(5,"new");
+      myList.add(5,"new");myList.add(5,"new");
+      myList.add(5,"new");
+      myList.add(5,"new");myList.add(5,"new");myList.add(5,"new");
+      myList.add(5,"new");
+      myList.remove(5);
       System.out.println("Size is " + myList.size());   	
       System.out.println("Contains \"Breadfruit\"?  " + myList.contains("Breadfruit"));
       System.out.println("Contains \"Banana\"?  " + myList.contains("Banana"));
@@ -170,7 +176,7 @@ class TJArrayList
       }
       
       for(int i=index;i<myArray.length-1;i++){
-         myArray[i] = myArray[i+1];
+         myArray[i] = temp[i+1];
       }
       size--;
       return prev;
