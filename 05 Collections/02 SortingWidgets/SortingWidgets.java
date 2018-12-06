@@ -60,7 +60,7 @@ public class SortingWidgets
    public static void swap(/*Comparable[]*/ArrayList<Comparable> array, int a, int b)
    {
       Comparable temp = array.get(a)/*[a]*/;				
-      array.set(a,b);//[a] = array[b];
+      array.set(a,array.get(b));//[a] = array[b];
       array.set(b,temp);//[b] = temp;
    }
    
