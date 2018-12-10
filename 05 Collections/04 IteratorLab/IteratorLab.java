@@ -34,8 +34,8 @@ public class IteratorLab
     */     
    public static ArrayList<Integer> createNumbers(int[] rawNumbers) 
    {
-      ArrayList<String> myList = new ArrayList<String>();
-      for ( String str : rawWords )
+      ArrayList<Integer> myList = new ArrayList<Integer>();
+      for ( int str : rawNumbers )
          myList.add( str );
       return myList;
    }
@@ -45,7 +45,11 @@ public class IteratorLab
     */    
    public static ArrayList<String> createMovies(String[] rawWords) 
    {
-        
+      ArrayList<String> result = new ArrayList<String>();   
+      for(String s:rawWords){
+         result.add(s);
+      }
+      return result;
    }
 
    /**
@@ -54,7 +58,12 @@ public class IteratorLab
     */    
    public static int countNeg(ArrayList<Integer> a)
    {
-         
+      int count =0;
+      for(int b: a){
+         if(b<0)
+            count++;
+      }
+      return count;
    }
   
    /**
@@ -63,7 +72,12 @@ public class IteratorLab
     */    
    public static double average(ArrayList<Integer> a)
    {
-       
+      int sum =0;
+      for(int b:a){
+         sum+=b;
+      }
+      
+      return (double)(sum/a.size());      
    }
 
    /**
@@ -73,7 +87,13 @@ public class IteratorLab
     */    
    public static ArrayList<Integer> replaceNeg(ArrayList<Integer> a)
    {
+      ListIterator it = a.listIterator();
+      while(it.hasNext())
+         if((int)it.next() < 0)
+            it.set(0);
       
+      return a;
+            
    }
   
    /**
@@ -83,7 +103,12 @@ public class IteratorLab
     */   
    public static ArrayList<Integer> deleteZero(ArrayList<Integer> a)
    {
-       
+      ListIterator it = a.listIterator();
+      while(it.hasNext())
+         if((int)it.next() == 0)
+            it.remove();
+         
+      return a;
    }
 
    /**
@@ -93,7 +118,16 @@ public class IteratorLab
     */   
    public static ArrayList<String> removeDupes(ArrayList<String> a)
    {
-          
+      int size = a.size();
+    
+      for(int i=0;i<size;i++){
+         ListIterator it = a.listIterator();
+         String comp = it.next().toString();
+         while(it.hasNext())
+            if(it.next().equals(comp))
+               it.remove();
+      } 
+      return a;     
    }
    
 }

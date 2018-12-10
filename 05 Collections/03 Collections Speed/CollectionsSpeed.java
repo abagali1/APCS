@@ -48,8 +48,12 @@ public class CollectionsSpeed
     * Add 10000 new objects at position 0.
     */
    public static double timeAddFirst(List<Integer> list)
-   {
-   
+   {  
+      double start = System.nanoTime();
+      for(int i=0;i<10000;i++){
+         list.add(new Integer(i));
+      }
+      return (System.nanoTime() - start)/1E6;
    }
    
    /*    
@@ -57,7 +61,11 @@ public class CollectionsSpeed
     */
    public static double timeAddLast(List<Integer> list)
    {
-   
+      double start = System.nanoTime();
+      for(int i=0;i<10000;i++){
+         list.add(list.size(), new Integer(i));
+      }
+      return (System.nanoTime() - start)/1E6;
    }
    
    /*    
@@ -67,6 +75,11 @@ public class CollectionsSpeed
     */
    public static double timeAddLastLL(List<Integer> list)
    {
-   
+      double start = System.nanoTime();
+      LinkedList<Integer> link = (LinkedList<Integer>)list;
+      for(int i=0;i<10000;i++){
+         link.addLast(new Integer(i));
+      }
+      return (System.nanoTime() - start)/1E6;
    }
 }
