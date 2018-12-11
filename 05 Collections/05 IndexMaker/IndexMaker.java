@@ -57,7 +57,7 @@ class DocumentIndex extends ArrayList<IndexEntry>
     */
    public void addWord(String word, int num)
    {
-   
+      this.get(foundOrInserted(word)).add(num);
    }
       
    /**
@@ -89,7 +89,24 @@ class DocumentIndex extends ArrayList<IndexEntry>
     */
    private int foundOrInserted(String word)
    {
-   
+      if(this.size() == 0){
+         this.add(new IndexEntry(word));
+         return 0;
+      }
+      ListIterator it = this.listIterator();
+      IndexEntry add = new IndexEntry(word);
+      int index = 0;
+      for(int i=0;i<this.size();i++){
+         if(this.get(i).getWord().compareTo(word) == 0)
+            index = i;
+      }
+      while(it.hasNext()){
+         if(((IndexEntry)it.next()).getWord().compareTo(word) > 0){
+            it.add(add);
+            index = this.indexOf(add);
+         }
+      }
+      return index;
    }
 }
    
@@ -103,9 +120,6 @@ class IndexEntry implements Comparable<IndexEntry>
       word = s.toUpperCase();
       numsList = new ArrayList<Integer>();
    }
-   
-   
-   
    /** 
     * Appends num to numList but only if not already in list. 
     */
@@ -119,13 +133,19 @@ class IndexEntry implements Comparable<IndexEntry>
    {
       return word;
    }
+   
+   public int compareTo(IndexEntry i){
+      return this.getWord().compareTo(i.getWord());
+   }
       
    public String toString()
    {
-      String result = getWord();
-      for(Integer i: numList){
-         result += i.toString() + ", ";
+      String result = getWord() + " ";
+      int i;
+      for(i=0;i<numsList.size()-1;i++){
+         result += numsList.get(i).toString() + ", ";
       }
+      result += numsList.get(i);
       return result;
    }
 }
