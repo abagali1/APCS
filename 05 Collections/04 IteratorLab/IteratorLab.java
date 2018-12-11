@@ -118,16 +118,18 @@ public class IteratorLab
     */   
    public static ArrayList<String> removeDupes(ArrayList<String> a)
    {
-      int size = a.size();
-    
-      for(int i=0;i<size;i++){
-         ListIterator it = a.listIterator();
-         String comp = it.next().toString();
-         while(it.hasNext())
-            if(it.next().equals(comp))
-               it.remove();
-      } 
-      return a;     
+      ArrayList<String> result = new ArrayList<String>();
+      for(int i=0;i<a.size();i++){
+         String comp = a.get(i);
+         boolean isin = false;
+         for(int j=0;j<result.size();j++){
+            if(result.get(j).equals(comp))
+               isin = true;
+         }
+         if(!isin)
+            result.add(comp);
+      }
+      return result;
    }
    
 }
