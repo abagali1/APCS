@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 12/11/18
 
 import java.io.*;
 import java.util.*;
@@ -44,7 +44,12 @@ public class IndexMaker
 class DocumentIndex extends ArrayList<IndexEntry>
 {
     //constructors
-   
+   public DocumentIndex(){
+      super();
+   }
+   public DocumentIndex(int i){
+      super(i);
+   }
    /**
     * Calls foundOrInserted, which returns an index.
     * At that position, updates that IndexEntry's 
@@ -63,7 +68,16 @@ class DocumentIndex extends ArrayList<IndexEntry>
     */
    public void addAllWords(String str, int num) 
    {
-   
+      String[] punct = new String[] {",",".","/",";",":","'","\"","?","<",">","[","]","{","}","|","`","~","!","@","#","$","%","^","&","*","(",")","\\"};
+      for(String s:punct){
+         if(str.contains(s))
+            str = str.replace(s,"");
+      }
+      String[] words = str.split(" ");
+      for(String s:words){
+         addWord(s,num);
+      }
+      
    }
       
    /** 
@@ -82,8 +96,13 @@ class DocumentIndex extends ArrayList<IndexEntry>
 class IndexEntry implements Comparable<IndexEntry>
 {
    //fields
-   
+   private String word;
+   private ArrayList<Integer> numsList;
    //constructors
+   public IndexEntry(String s){
+      word = s.toUpperCase();
+      numsList = new ArrayList<Integer>();
+   }
    
    
    
@@ -92,17 +111,22 @@ class IndexEntry implements Comparable<IndexEntry>
     */
    public void add(int num)
    {
-   
+      if(!numsList.contains(num))
+         numsList.add(num);
    }
       
    public String getWord()
    {
-   
+      return word;
    }
       
    public String toString()
    {
-   
+      String result = getWord();
+      for(Integer i: numList){
+         result += i.toString() + ", ";
+      }
+      return result;
    }
 }
 
