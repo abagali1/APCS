@@ -97,15 +97,18 @@ class DocumentIndex extends ArrayList<IndexEntry>
       IndexEntry add = new IndexEntry(word);
       int index = 0;
       for(int i=0;i<this.size();i++){
-         if(this.get(i).getWord().compareTo(word) == 0)
+         IndexEntry a = this.get(i);
+         if(a.getWord().compareTo(word.toUpperCase()) == 0){
             index = i;
-      }
-      while(it.hasNext()){
-         if(((IndexEntry)it.next()).getWord().compareTo(word) > 0){
-            it.add(add);
-            index = this.indexOf(add);
+            return index;
          }
       }
+      IndexEntry i;
+      for(i=((IndexEntry)it.next());((i.getWord().compareTo(word) < 0) && it.hasNext() );i=(IndexEntry)it.next());
+      it.previous();
+      it.add(add);
+      index = it.previousIndex();
+      
       return index;
    }
 }
