@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name:Anup Bagali
+// Date:12/13/18
 
 import java.util.List;
 import java.io.*;
@@ -126,7 +126,16 @@ class TJTwitter2
    public void splitIntoWords()
    {
       //your code goes here      
+      ListIterator<TJ_Status2> it = statuses.listIterator();
+      while(it.hasNext())
+         it.set(new TJ_Status2(removePunctuation(it.next().getText())));
       
+      for(TJ_Status2 t: statuses){
+         String[] temp = t.getText().split(" ");
+         for(String b: temp){
+            terms.add(b);
+         }
+      }
    }
 
    /** 
@@ -140,8 +149,12 @@ class TJTwitter2
     */
    public String removePunctuation( String s )
    {
-      //your code goes here  
-      return "";    
+      char[] punct = ",./;:'\"?<>[]{}|`~!@#$%^&*()".toCharArray(); 
+      
+      for(char c: punct)
+         s = s.replace(c+"","");
+      
+      return s.toLowerCase();    
    }
 
    /** 
@@ -153,7 +166,26 @@ class TJTwitter2
    @SuppressWarnings("unchecked")
    public void removeCommonEnglishWords()
    {  
-      //your code goes here      
+      Scanner infile;
+      try{ 
+         infile = new Scanner(new File("commonWords.txt")); 
+      }
+      catch(Exception e){
+         System.out.println(e); 
+         return;
+      }
+      ArrayList<String> words = new ArrayList<String>();
+      while(infile.hasNext())
+         words.add(infile.next().toLowerCase());
+            
+      ListIterator<String> it= terms.listIterator();
+      
+      while(it.hasNext()){
+         if(words.contains(it.next()))
+            it.remove();
+      }
+      
+   
       
    }
 
@@ -165,14 +197,40 @@ class TJTwitter2
    @SuppressWarnings("unchecked")
    public void sortAndRemoveEmpties()
    {
-      //your code goes here      
+      sort(terms);
+      ListIterator<String> it = terms.listIterator();
+      while(it.hasNext())
+         if(it.next().isEmpty())
+            it.remove(); 
       
       
    }
-   private static void sort(Comparable[] array)
+   public static void sort(List<String> array)
    {
-   
+      int maxPos;
+      for(int k = 0; k < array.size(); k++)
+      {
+         maxPos = findMax(array, array.size() - k-1);
+         swap(array, maxPos, array.size() - k - 1);
+      }
    }
+   @SuppressWarnings("unchecked")
+    public static int findMax(List<String> array, int upper)
+   {
+      int max = 0;
+      for(int i =0;i<=upper;i++){
+         if(array.get(i).compareTo(array.get(max)) > 0)
+            max = i;
+      }
+      return max;
+   }
+   public static void swap(List<String> array, int a, int b)
+   {
+      String temp = array.get(a);
+      array.set(a,array.get(b));
+      array.set(b,temp);
+   }
+
   
    /** 
     * This method returns the most common word from terms.    
@@ -183,8 +241,25 @@ class TJTwitter2
    @SuppressWarnings("unchecked")
    public String mostPopularWord()
    {
-      //your code goes here  
-      return "";    
+      String most = null;
+      String prev = null;
+      int num =0;
+      int max=0;
+      for(String s:terms){
+         if(s.equals(prev)){
+            num++;
+         }
+         else{
+            if(num>max){
+               max = num;
+               most = prev;
+            }
+            num = 1;
+            prev =s;
+         }
+      }
+      frequencyMax = max;
+      return most;    
    }
 }  
 
