@@ -68,7 +68,7 @@ class DocumentIndex extends ArrayList<IndexEntry>
     */
    public void addAllWords(String str, int num) 
    {
-      String[] punct = new String[] {",",".","/",";",":","'","\"","?","<",">","[","]","{","}","|","`","~","!","@","#","$","%","^","&","*","(",")","\\"};
+      String[] punct = new String[] {",",".","/",";",":","'","\"","?","<",">","[","]","{","}","|","`","~","!","@","#","$","%","^","&","*","(",")"};
       for(String s:punct){
          if(str.contains(s))
             str = str.replace(s,"");
@@ -93,7 +93,7 @@ class DocumentIndex extends ArrayList<IndexEntry>
          this.add(new IndexEntry(word));
          return 0;
       }
-      ListIterator it = this.listIterator();
+      ListIterator<IndexEntry> it = this.listIterator();
       IndexEntry add = new IndexEntry(word);
       int index = 0;
       for(int i=0;i<this.size();i++){
@@ -104,7 +104,7 @@ class DocumentIndex extends ArrayList<IndexEntry>
          }
       }
       IndexEntry i;
-      for(i=((IndexEntry)it.next());((i.getWord().compareTo(word) < 0) && it.hasNext() );i=(IndexEntry)it.next());
+      for(i=(it.next());((i.getWord().compareTo(word) < 0) && it.hasNext() );i=it.next());
       it.previous();
       it.add(add);
       index = it.previousIndex();
