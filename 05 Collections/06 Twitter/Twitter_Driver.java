@@ -1,5 +1,5 @@
-//Name:   
-//Date:
+//Name: Anup Bagali 
+//Date: 12/13/18
 //The Twitter API is at http://twitter4j.org
 
 import twitter4j.*;       //set the classpath to lib\twitter4j-core-4.0.7.jar
@@ -21,10 +21,10 @@ public class Twitter_Driver
       
       // Create and set a String called message here
    
-      /*
-      String message;
+      
+      String message = "first tweet";
       bigBird.tweetOut(message);
-      */
+      
        
    
       // PART 2
@@ -96,7 +96,7 @@ class TJTwitter
    */
    public void tweetOut(String message) throws TwitterException, IOException
    {
-      
+      twitter.updateStatus(message);  
    }
 
    
@@ -135,7 +135,7 @@ class TJTwitter
          p++;        
       }
       numberOfTweets = statuses.size();
-      fileout.println("Number of tweets = " + numberTweets);
+      fileout.println("Number of tweets = " + numberOfTweets);
    
    }   
 
@@ -145,7 +145,16 @@ class TJTwitter
    */
    public void splitIntoWords()
    {
+      ListIterator<Status> it = statuses.listIterator();
+      while(it.hasNext())
+         it.set(new Status(removePunctuation(it.next().getText())));
       
+      for(Status t: statuses){
+         String[] temp = t.getText().split(" ");
+         for(String b: temp){
+            terms.add(b);
+         }
+      }
    }
 
   /** 
@@ -157,7 +166,12 @@ class TJTwitter
    */
    public String removePunctuation( String s )
    {
-      return null;
+      char[] punct = ",./;:'\"?<>[]{}|`~!@#$%^&*()".toCharArray(); 
+      
+      for(char c: punct)
+         s = s.replace(c+"","");
+      
+      return s.toLowerCase();
    
    }
 
@@ -171,7 +185,24 @@ class TJTwitter
    public void removeCommonEnglishWords()
    {	
    
-   
+      Scanner infile;
+      try{ 
+         infile = new Scanner(new File("commonWords.txt")); 
+      }
+      catch(Exception e){
+         System.out.println(e); 
+         return;
+      }
+      ArrayList<String> words = new ArrayList<String>();
+      while(infile.hasNext())
+         words.add(infile.next().toLowerCase());
+            
+      ListIterator<String> it= terms.listIterator();
+      
+      while(it.hasNext()){
+         if(words.contains(it.next()))
+            it.remove();
+      }
    }
 
   /** 
@@ -183,8 +214,40 @@ class TJTwitter
    public void sortAndRemoveEmpties()
    {
    
-   
+      sort(terms);
+      ListIterator<String> it = terms.listIterator();
+      while(it.hasNext())
+         if(it.next().isEmpty())
+            it.remove(); 
+      
+      
    }
+   public static void sort(List<String> array)
+   {
+      int maxPos;
+      for(int k = 0; k < array.size(); k++)
+      {
+         maxPos = findMax(array, array.size() - k-1);
+         swap(array, maxPos, array.size() - k - 1);
+      }
+   }
+   @SuppressWarnings("unchecked")
+    public static int findMax(List<String> array, int upper)
+   {
+      int max = 0;
+      for(int i =0;i<=upper;i++){
+         if(array.get(i).compareTo(array.get(max)) > 0)
+            max = i;
+      }
+      return max;
+   }
+   public static void swap(List<String> array, int a, int b)
+   {
+      String temp = array.get(a);
+      array.set(a,array.get(b));
+      array.set(b,temp);
+   }
+
   
   /** 
    * This method returns the most common word from terms.    
@@ -195,7 +258,25 @@ class TJTwitter
    @SuppressWarnings("unchecked")
    public String mostPopularWord()
    {
-      return null;
+      String most = null;
+      String prev = null;
+      int num =0;
+      int max=0;
+      for(String s:terms){
+         if(s.equals(prev)){
+            num++;
+         }
+         else{
+            if(num>max){
+               max = num;
+               most = prev;
+            }
+            num = 1;
+            prev =s;
+         }
+      }
+      frequencyMax = max;
+      return most;   
    }
 
 
