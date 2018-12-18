@@ -9,9 +9,8 @@ import java.io.*;
 public class Twitter_Driver
 {
    private static PrintStream consolePrint;
-
-   public static void main (String []args) throws TwitterException, IOException
-   {
+   public static void main(String[] args) throws TwitterException, IOException{
+   
       consolePrint = System.out; // this preserves the standard output so we can get to it later      
    
       // PART 1
@@ -22,14 +21,14 @@ public class Twitter_Driver
       // Create and set a String called message here
    
       
-      String message = "first tweet";
+      String message = "first twee1t";
       bigBird.tweetOut(message);
       
        
    
       // PART 2
       // Choose a public Twitter user's handle 
-      /*
+      
       Scanner scan = new Scanner(System.in);
       consolePrint.print("Please enter a Twitter handle, do not include the @symbol --> ");
       String twitter_handle = scan.next();
@@ -44,10 +43,10 @@ public class Twitter_Driver
          consolePrint.print("Please enter a Twitter handle, do not include the @ symbol --> ");
          twitter_handle = scan.next();
       }
-      */
+      
       
       // PART 3
-      //bigBird.investigate();
+      bigBird.investigate();
       
       
    }//end main         
@@ -145,14 +144,12 @@ class TJTwitter
    */
    public void splitIntoWords()
    {
-      ListIterator<Status> it = statuses.listIterator();
-      while(it.hasNext())
-         it.set(new Status(removePunctuation(it.next().getText())));
+
       
       for(Status t: statuses){
          String[] temp = t.getText().split(" ");
          for(String b: temp){
-            terms.add(b);
+            terms.add(removePunctuation(b).toLowerCase());
          }
       }
    }
