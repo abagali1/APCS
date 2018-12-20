@@ -231,17 +231,17 @@ public class TJTwitter {
    {
       Query query = new Query("drake");
       query.setCount(100);
-      query.setGeoCode(new GeoLocation(0,0), Double.MAX_VALUE, Query.MILES);
-      query.setSince("2018-11-15");
+      query.setGeoCode(new GeoLocation(37.0902,95.7129), Double.MAX_VALUE, Query.MILES);
+      query.setSince("2010-11-15");
       int count = 0;
       try {
          QueryResult result = twitter.search(query);
          System.out.println("Count : " + result.getTweets().size()) ;
          for (Status tweet : result.getTweets()) {
             System.out.println("@"+tweet.getUser().getName()+ ": " + tweet.getText());  
-            count += result.getTweets().size();
+            //count += result.getTweets().size();
          }
-         System.out.println(count +" drake fans on twitter");
+         System.out.println(result.getTweets().size() +" drake fans on twitter");
       } 
       catch (TwitterException e) {
          e.printStackTrace();
