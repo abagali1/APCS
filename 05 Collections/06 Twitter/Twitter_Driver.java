@@ -47,12 +47,7 @@ public class Twitter_Driver
       */
       
       // PART 3
-      JFrame frame = new JFrame("Is school closed today?");
-      frame.setSize(500,500);
-      frame.setLocation(200,200);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setContentPane(new Panel());
-      frame.setVisible(true);
+
       bigBird.investigate();
       
       
