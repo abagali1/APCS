@@ -35,24 +35,24 @@ public class Postfix
    public static int eval(String pf)
    {
       List<String> postfixParts = new ArrayList<String>(Arrays.asList(pf.split(" ")));
-      Stack<Integer> stack = new Stack<Integer>();
+      Stack<Double> stack = new Stack<Double>();
       for(String s: postfixParts){
          if(!isOperator(s)){
-            stack.add(new Integer(s));
+            stack.add(new Double(s));
          }
          else{
             if(!"!".equals(s)){
-               int second = (int)stack.pop();
-               int first = (int)stack.pop();
-               stack.push(new Integer(eval(first,second,s)));
+               int second = stack.pop().intValue();
+               int first = stack.pop().intValue();
+               stack.push(new Double(eval(first,second,s)));
             }
             else{
-               int first = (int)stack.pop();
-               stack.push(new Integer(eval(first,0,s)));
+               int first = stack.pop().intValue();
+               stack.push(new Double(eval(first,0,s)));
             }
          }
       }
-      return (int)stack.pop();
+      return stack.pop().intValue();
    
    }
    
@@ -77,7 +77,12 @@ public class Postfix
          return a%b;
       }
       else{
-         return a/b;
+         try{
+            return a/b;
+         }catch(java.lang.ArithmeticException e){
+            System.out.print("DIVIDE BY ZERO");
+            return 0;
+         }
       }
    }
    

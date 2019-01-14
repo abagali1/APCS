@@ -41,6 +41,11 @@ public class ParenMatch
       char[] arr = exp.toCharArray();
       Stack<Character> stack = new Stack<Character>();
       boolean result = false;
+      
+      if(!( Arrays.asList(arr).contains("(") || Arrays.asList(arr).contains(")") )){
+         return true;
+      }
+      
       for(char c: arr){
          if(LEFT.contains(""+c)){
             stack.push(c);
