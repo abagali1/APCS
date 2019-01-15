@@ -1,8 +1,10 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 1/15/19
 
 import java.io.*;
 import java.util.*;
+import com.google.api.client.auth.oauth2.Credential;
+
 
 public class SongQueue
 {
@@ -21,24 +23,80 @@ public class SongQueue
          System.out.print(prompt);
          str = keyboard.nextLine().toUpperCase();
          processRequest( str );
-         System.out.println();
+         //System.out.println();
       }while(!str.equals("Q"));
+      System.out.println("No more music for you today. Goodbye!");
+      
    }
    
    public static Queue<String> readPlayList() throws IOException
    {
-      Scanner infile = new Scanner (new File("songs.txt"));  
-       
+      Scanner infile = new Scanner (new File("songs.txt"));
+      Queue<String> result = new LinkedList<String>();
+      while(infile.hasNextLine()){
+         String n = infile.nextLine();
+         result.add(n.substring(0,n.indexOf("-")-1));
+      }        
+      return result;
    }
    
    public static void processRequest(String str)
    {
-   
+      if("A".equals(str)){
+         add();
+      }
+      else if("P".equals(str)){
+         play();
+      }
+      else if("D".equals(str)){
+         delete();
+      }
    }
-
+   
+   public static void add(){
+      System.out.print("Song to add? ");
+      String song = keyboard.next();
+      songQueue.add(song);
+      System.out.println("Your music queue: " + songQueue.toString());
+   }
+   
+   public static void play(){
+      if(songQueue.isEmpty()){
+         System.out.println("Empty queue!");
+      }
+      else{
+         System.out.println("Now playing: "+songQueue.remove());
+      }
+   }
+   
+   public static void delete(){
+      System.out.println("Your song queue: " + songQueue.toString());
+      System.out.print("Enter song to delete (exact match): ");
+      String song = keyboard.nextLine();
+      boolean contains = false;
+      Queue<String> safe = songQueue;
+      Queue<String> temp = new LinkedList<String>();
+      while(!songQueue.isEmpty()){
+         if(!(songQueue.peek().equals(song))){
+            temp.add(songQueue.remove());
+         }
+         else{
+            songQueue.remove();
+            contains = true;
+         }
+      }
+      songQueue = temp;
+      if(contains){
+         System.out.println("Your music queue: " + songQueue.toString());
+      }
+      else{
+         System.out.println("Error: Song not in list.");
+      }
+   }
+   
    public static void printSongList()
    {
-            
+      System.out.println("Your music queue: " +songQueue.toString());  
    }
    
    public static Queue<String> getQueue()
