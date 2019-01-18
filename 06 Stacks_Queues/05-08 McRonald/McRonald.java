@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 1/17/19
 
 import java.util.*;
 
@@ -9,20 +9,81 @@ public class McRonald
    
    public static void main(String[] args)
    {
+      Queue<Integer> q = new LinkedList<Integer>();
+      int time;
+      int serviceT =0;
+      int arrivalTime;
+      double totalWait =0;
+      int maxWait =0;
+      int currentQ = 0;
+      int maxQ=0;
+      double totalCus=0;
+      for(time=0;time<TIME;time++){
+         if(q.isEmpty()){
+            serviceT = (int)(Math.random()*6 + 2);
+         }
+         arrivalTime = (int)(Math.random()*5);
+         if(arrivalTime == 0){
+            q.add(time);
+            currentQ++;
+         }
+         display(q,time);
+         if(serviceT > 0){
+            serviceT--;
+         }
+         else if(serviceT == 0){
+            if(currentQ > maxQ){
+               maxQ = currentQ;
+            }
+            currentQ--;
+            int waitT = time - q.remove();
+            totalWait += waitT;
+            if(maxWait < waitT){
+               maxWait = waitT;
+            }
+            totalCus++;
+            serviceT = (int)(Math.random()*6 + 2);          
+         }
+      }
+      while(!q.isEmpty()){
+         display(q,time);
+         if(serviceT > 0){
+            serviceT--;
+         }
+         else if(serviceT == 0){
+            if(currentQ > maxQ){
+               maxQ = currentQ;
+            }
+            currentQ--;
+            int waitT = time - q.remove();
+            totalWait += waitT;
+            if(maxWait < waitT){
+               maxWait = waitT;
+            }
+            totalCus++;
+            serviceT = (int)(Math.random()*6 + 2);          
+         }
+         time++;
+      
+      }
+      System.out.println("Total Customers Served: " + totalCus);
+      System.out.println("Average Wait Time: " + (double)(totalWait/totalCus) );
+      System.out.println("Longest Wait Time: " + maxWait);
+      System.out.println("Longest Queue: " + maxQ);
    
    }
    
-   public static void display(Queue<Integer> q, int min)   //if you are storing arrival times
-   //public static void display(Queue<Customer> q, int min) //if you have a Customer class
+   //public static void display(Queue<Integer> q, int min)   //if you are storing arrival times
+   public static void display(Queue<Integer> q, int min) //if you have a Customer class
    {
-   
+      System.out.println(min +": " + q);
    }
 }
 
-// class Customer      // if you want a Customer class
-// {
-//
-// }
+class Customer      // if you want a Customer class
+{
+
+}
 
 
 /**********************  Sample output
