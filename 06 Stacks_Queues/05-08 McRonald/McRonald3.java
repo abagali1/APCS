@@ -6,12 +6,12 @@ import java.util.*;
 public class McRonald3
 {
    public static final int TIME = 1080;  //18 hrs * 60 min
-   
+   public static Queue<Integer> q = new LinkedList<Integer>();   
+
    public static void main(String[] args)
    {
-      Queue<Integer> q = new LinkedList<Integer>();
       int time;
-      int serviceT =0;
+      int serviceT,serviceT2,serviceT3 =0;
       int arrivalTime;
       double totalWait =0;
       int maxWait =0;
@@ -22,6 +22,7 @@ public class McRonald3
       for(time=0;time<TIME;time++){
          if(q.isEmpty()){
             serviceT = (int)(Math.random()*6 + 2);
+            addToArray(serviceT);
          }
          arrivalTime = (int)(Math.random()*5);
          if(arrivalTime == 0){
@@ -29,15 +30,13 @@ public class McRonald3
             currentQ++;
          }
          display(q,time);
-         if(serviceT > 0){
-            serviceT--;
-         }
-         else if(serviceT == 0){
+         int pos = decrementArray(); //decrements all times and returns the position of window which has 0, -1 if none are 0
+         if(pos != -1){ //decrements all times and returns 
             if(currentQ > maxQ){
                maxQ = currentQ;
             }
             currentQ--;
-            int waitT = time - q.remove();
+            int waitT = time - remove(pos);
             totalWait += waitT;
             if(maxWait < waitT){
                maxWait = waitT;
@@ -48,15 +47,13 @@ public class McRonald3
       }
       while(!q.isEmpty()){
          display(q,time);
-         if(serviceT > 0){
-            serviceT--;
-         }
-         else if(serviceT == 0){
+         int pos = decrementArray(); //decrements all times and returns the position of window which has 0, -1 if none are 0
+         if(pos != -1){ //decrements all times and returns 
             if(currentQ > maxQ){
                maxQ = currentQ;
             }
             currentQ--;
-            int waitT = time - q.remove();
+            int waitT = time - remove(pos);
             totalWait += waitT;
             if(maxWait < waitT){
                maxWait = waitT;
@@ -65,7 +62,6 @@ public class McRonald3
             serviceT = (int)(Math.random()*6 + 2);          
          }
          time++;
-      
       }
       System.out.println("Total Customers Served: " + totalCus);
       System.out.println("Average Wait Time: " + (double)(totalWait/totalCus) );
@@ -78,6 +74,12 @@ public class McRonald3
    public static void display(Queue<Integer> q, int min) //if you have a Customer class
    {
       System.out.println(min +": " + q);
+   }
+   public static void addToArray(int time){
+   }
+   public static int decrementArray(){
+   }
+   public static int remove(int pos){ //removes element at position pos in Queue q
    }
 }
 
