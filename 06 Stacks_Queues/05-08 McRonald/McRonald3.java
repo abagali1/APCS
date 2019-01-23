@@ -17,12 +17,12 @@ public class McRonald3
       int maxWait =0;
       int currentQ = 0;
       int maxQ=0;
-      int[] windows = new int[]{0,0,0};
+      int[] windows = new int[]{-1,-1,-1};
       double totalCus=0;
       for(time=0;time<TIME;time++){
          if(q.isEmpty()){
             serviceT = (int)(Math.random()*6 + 2);
-            addToArray(serviceT);
+            addToArray(windows,serviceT);
          }
          arrivalTime = (int)(Math.random()*5);
          if(arrivalTime == 0){
@@ -30,7 +30,7 @@ public class McRonald3
             currentQ++;
          }
          display(q,time);
-         int pos = decrementArray(); //decrements all times and returns the position of window which has 0, -1 if none are 0
+         int pos = decrementArray(windows); //decrements all times and returns the position of window which has 0, -1 if none are 0
          if(pos != -1){ //decrements all times and returns 
             if(currentQ > maxQ){
                maxQ = currentQ;
@@ -47,7 +47,7 @@ public class McRonald3
       }
       while(!q.isEmpty()){
          display(q,time);
-         int pos = decrementArray(); //decrements all times and returns the position of window which has 0, -1 if none are 0
+         int pos = decrementArray(windows); //decrements all times and returns the position of window which has 0, -1 if none are 0
          if(pos != -1){ //decrements all times and returns 
             if(currentQ > maxQ){
                maxQ = currentQ;
@@ -75,11 +75,49 @@ public class McRonald3
    {
       System.out.println(min +": " + q);
    }
-   public static void addToArray(int time){
+   public static void addToArray(int[] arr,int time){
+      if(Arrays.asList(arr).size() == 3){
+         return;
+      }else{
+         for(int i = 0;i<=arr.length-1;i++){
+            if(arr[i] == -1){
+               arr[i] = time;
+               return;
+            }
+         }
+      }
    }
-   public static int decrementArray(){
+   public static int decrementArray(int[] arr){
+      int result = -1;
+      for(int i=0;i<=arr.length-1;i++){
+         if(arr[i] != -1){
+            arr[i] = arr[i]-1;
+         }
+      }
+      for(int i=0;i<=arr.length-1;i++){
+         if(arr[i] == 0){
+            result = arr[i];
+            arr[i] = -1;
+            break;
+         }else{
+            continue;
+         }
+      }
+      return result;
+      
    }
    public static int remove(int pos){ //removes element at position pos in Queue q
+      Queue<Integer> result = new LinkedList<Integer>();
+      int removed = 0;
+      for(int i=0;i<pos;i++){
+         result.add(q.remove());
+      }
+      removed = q.remove().intValue();
+      while(!q.isEmpty()){
+         result.add(q.remove());
+      }
+      q = result;
+      return removed;
    }
 }
 
