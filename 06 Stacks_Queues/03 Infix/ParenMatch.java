@@ -43,7 +43,7 @@ public class ParenMatch
       boolean result = false;
       
       if(!( Arrays.asList(arr).contains("(") || Arrays.asList(arr).contains(")") )){
-         return true;
+         return true;nn
       }
       
       for(char c: arr){

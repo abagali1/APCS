@@ -20,9 +20,10 @@ public class McRonald3
       int[] windows = new int[]{-1,-1,-1};
       double totalCus=0;
       for(time=0;time<TIME;time++){
-         if(q.isEmpty()){
+         int space = isEmpty(windows);
+         if(space != -1){
             serviceT = (int)(Math.random()*6 + 2);
-            addToArray(windows,serviceT);
+            windows[space] = serviceT;
          }
          arrivalTime = (int)(Math.random()*5);
          if(arrivalTime == 0){
@@ -36,13 +37,18 @@ public class McRonald3
                maxQ = currentQ;
             }
             currentQ--;
-            int waitT = time - remove(pos);
+            int waitT = 5;
+            try{
+             waitT = time - remove(pos);
+            }catch(Exception e){}
             totalWait += waitT;
             if(maxWait < waitT){
                maxWait = waitT;
             }
             totalCus++;
-            serviceT = (int)(Math.random()*6 + 2);          
+         
+         }else if(arrivalTime != 0 && space != -1){
+            windows[space] = -1;
          }
       }
       while(!q.isEmpty()){
@@ -75,7 +81,20 @@ public class McRonald3
    {
       System.out.println(min +": " + q);
    }
-   public static void addToArray(int[] arr,int time){
+   public static int isEmpty(int[] arr){
+      if(arr[0] == -1)
+         return 0;
+      else if(arr[1] == -1)
+         return 1;
+      else if(arr[2] == -1)
+         return 2;
+      else
+         return -1;
+   }
+   public static void addToArray(int[] arr,int time,boolean clear){
+      if(clear){
+         arr[0] = -1; arr[1] = -1; arr[2] = -1;
+      }
       if(Arrays.asList(arr).size() == 3){
          return;
       }else{
