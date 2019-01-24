@@ -1,4 +1,4 @@
-// Name:
+// Name: Anup Bagali
 // Date:
 
 import java.util.*;
@@ -9,26 +9,182 @@ public class LunchRoom
    
    public static void main(String[] args)
    {
-      PriorityQueue<Customer> queue = new PriorityQueue<Customer>();
-      /*  write code for the simulation   */
+      PriorityQueue<Customer> q = new PriorityQueue<Customer>();
+      double fresh =0;
+      double soph =0;
+      double junior =0;
+      double senior = 0;
+      double freshWait =0;
+      double sophWait =0;
+      double juniorWait =0;
+      double seniorWait = 0;
+      double maxFresh =0;
+      double maxSoph =0;
+      double maxJunior =0;
+      double maxSenior =0;
+      int time;
+      int serviceT=-1;
+      int arrivalT;
+      int person;
+      double waitT;
+      for(time =0;time<TIME;time++){
+         if(q.isEmpty()){
+            serviceT = (int)(Math.random()*6 +2);
+         }
+         arrivalT = (int)(Math.random()*5);
+         if(arrivalT == 0){
+            person = (int)(Math.random()*4);
+            q.add(new Customer(person,time));
+            switch(person){
+               case 0:
+                  senior++;
+               case 1:
+                  junior++;
+               case 2:
+                  soph++;
+               case 3:
+                  fresh++;
+                  
+            }
+         }
+         display(time,q);
+         if(serviceT > 0){
+            serviceT--;
+         }
+         else if(serviceT == 0){
+            if(q.peek().getGrade() == 0){
+               waitT = time-q.remove().getTime();
+               seniorWait += waitT;
+               if(maxSenior < seniorWait){
+                  maxSenior = seniorWait;
+               }
+            }
+            else if(q.peek().getGrade() == 1){
+               waitT = time -q.remove().getTime();
+               juniorWait += waitT;
+               if(maxJunior < juniorWait){
+                  maxJunior = juniorWait;
+               } 
+            }
+            else if(q.peek().getGrade() == 2){
+               waitT = time -q.remove().getTime();
+               sophWait += waitT;
+               if(maxSoph < sophWait){
+                  maxSoph = sophWait;
+               }
+            }
+            else{
+               waitT = time-q.remove().getTime();
+               freshWait += waitT;
+               if(maxFresh < freshWait){
+                  maxFresh = freshWait;
+               }
+            }
+            serviceT = (int)(Math.random()*6 +2);
+         
+         }
+      }
+      while(!q.isEmpty()){
+         display(time,q);
+         if(serviceT > 0){
+            serviceT--;
+         }
+         else if(serviceT == 0){
+            if(q.peek().getGrade() == 0){
+               waitT = time-q.remove().getTime();
+               seniorWait += waitT;
+               if(maxSenior < seniorWait){
+                  maxSenior = seniorWait;
+               }
+            }
+            else if(q.peek().getGrade() == 1){
+               waitT = time -q.remove().getTime();
+               juniorWait += waitT;
+               if(maxJunior < juniorWait){
+                  maxJunior = juniorWait;
+               } 
+            }
+            else if(q.peek().getGrade() == 2){
+               waitT = time -q.remove().getTime();
+               sophWait += waitT;
+               if(maxSoph < sophWait){
+                  maxSoph = sophWait;
+               }
+            }
+            else{
+               waitT = time-q.remove().getTime();
+               freshWait += waitT;
+               if(maxFresh < freshWait){
+                  maxFresh = freshWait;
+               }
+            }
+            serviceT = (int)(Math.random()*6 +2);
+         } 
+         time++;
+      }
       
-      
-      
+   
       
       System.out.println("Customer\t\tTotal\t\tLongest\t\tAverage Wait");
-      /* report the data  */
+      System.out.println("Senior  \t\t"+(int)senior+"\t\t"+(int)maxSenior+"\t\t"+(seniorWait/senior));
+      System.out.println("Junior  \t\t"+(int)junior+"\t\t"+(int)maxJunior+"\t\t"+(juniorWait/junior));
+      System.out.println("Sophomore  \t\t"+(int)soph+"\t\t"+(int)maxSoph+"\t\t"+(sophWait/soph));
+      System.out.println("Freshman  \t\t"+(int)fresh+"\t\t"+(int)maxFresh+"\t\t"+(freshWait/fresh));
+   
    
    }
    
    public static void display(int t, PriorityQueue<Customer> q)
    {
-      
+      System.out.println(t + ": " + q);
    }
 }
 
 class Customer implements Comparable<Customer>
 {
-
+   private int grade;
+   private int time;
+   
+   public Customer(int s, int i){
+      grade = s;
+      time = i;
+   }
+   public int compareTo(Customer c){//0=senior 3=freshman
+      if(grade < c.grade){
+         return -1;
+      }
+      else if(grade == (c.grade)){
+         if(time>c.time){
+            return -1;
+         }
+         else{
+            return 1;
+         }
+      }
+      else{
+         return 1;
+      }
+   }
+   public int getGrade(){
+      return grade;
+   }
+   public int getTime(){
+      return time;
+   }
+   public String toString(){
+      if(grade ==0){
+         return time+":Se";
+      }
+      else if(grade ==1){
+         return time+":Ju";
+      }
+      else if(grade ==2){
+         return time+":So";
+      }
+      else{
+         return time+":Fr";
+      }
+   }
 }
 
 
