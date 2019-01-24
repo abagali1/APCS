@@ -3,7 +3,7 @@
 
 import java.util.*;
 
-public class LunchRoom
+public class MyPriorityQueue
 {
    public static final int TIME = 1080;  //18 hrs * 60 min
    
@@ -186,6 +186,32 @@ class Customer implements Comparable<Customer>
       }
    }
 }
+
+class MyPriorityQueuee{
+
+   ArrayList<Object> array;
+   int size;
+   public MyPriorityQueuee(){
+      array = new ArrayList<Object>();
+      size = array.size();
+   }
+   public void add(Object o){
+      array.add(o);
+      size = array.size();
+      array.sort(new Comparator<Object>());
+   }
+   public void remove(){
+      array.remove(0);
+      size = array.size();
+      array.sort(null);
+   }
+   public void peek(){
+      return array.get(0);
+   }
+    
+
+}
+
 
 
 /*-------------------------
