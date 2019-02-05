@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 2/5/19
 
 import java.util.*;
 
@@ -92,27 +92,49 @@ public class TreeLab
    
    public static String inorderTraverse(TreeNode t)
    {
+      String toReturn = "";
+      if(t == null)
+         return "";
         
-         
-      	       						 		//recurse left
-            				 					//inorder visit
-                								//recurse right
-      return null;
+      toReturn += inorderTraverse(t.getLeft());//recurse left
+      toReturn += t.getValue() + " "; //inorder visit
+      toReturn += inorderTraverse(t.getRight());   //recurse right
+              
+      return toReturn;
    }
    
    public static String postorderTraverse(TreeNode t)
    {
-      return null;
+      String toReturn = "";
+      if(t == null)
+         return "";
+        
+      toReturn += inorderTraverse(t.getLeft());//recurse left
+      toReturn += inorderTraverse(t.getRight());   //recurse right
+      toReturn += t.getValue() + " "; //inorder visit
+              
+      return toReturn;  
    }
    
    public static int countNodes(TreeNode t)
    {
-      return -1;
-   }
+      if(t == null)
+         return 0;
+       
+      return 1+countNodes(t.getRight())+countNodes(t.getLeft());
+      
+   } 
    
    public static int countLeaves(TreeNode t)
    {
-      return -1;
+      if(t == null){
+         return 0;
+      }else if(t.getLeft() == null && t.getRight() == null){
+         return 1;
+      }else{
+         return countLeaves(t.getLeft()) + countLeaves(t.getRight());
+      }
+   
    }
    
    /*  there are clever ways and hard ways to count grandparents  */ 
@@ -123,14 +145,22 @@ public class TreeLab
    
    public static int countOnlys(TreeNode t)
    {
-      return -1;
+      if(t == null){
+         return 0;
+      }else if(t.getLeft() == null && t.getRight() != null){
+         return 1+countOnlys(t.getRight());
+      }else if(t.getLeft() != null && t.getRight() == null){
+         return 1+countOnlys(t.getLeft());
+      }else{
+         return countOnlys(t.getLeft()) + countOnlys(t.getRight());
+      }
    }
    
    /* Returns the max of the heights on both sides of the tree
 	 */
    public static int height(TreeNode t)
    {
-      return -1;
+     if(t == null)
    }
    
    /* Returns the max of sum of heights on both sides of tree
@@ -145,7 +175,9 @@ public class TreeLab
    @SuppressWarnings("unchecked")
    public static Object min(TreeNode t)
    {
+   
       return null;
+     
    }
    
    /*  Object must be cast to Comparable in order to call .compareTo  
@@ -161,7 +193,16 @@ public class TreeLab
     */
    public static String displayLevelOrder(TreeNode t)
    {
-      return "";
+      String result = "";
+      Queue<Object> q = new LinkedList<Object>();
+      
+      q.add(t);
+      while(t.getLeft() != null){
+         q.add(t.getLeft());
+         q.add(t.getRight());
+         t = t.getLeft();
+      }
+      return null;
    }
 }
 
