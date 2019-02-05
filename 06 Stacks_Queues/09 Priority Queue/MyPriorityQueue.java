@@ -6,7 +6,7 @@ import java.util.*;
 public class MyPriorityQueue
 {
    public static final int TIME = 1080;  //18 hrs * 60 min
-   
+
    public static void main(String[] args)
    {
       PriorityQueue<Customer> q = new PriorityQueue<Customer>();
@@ -44,7 +44,7 @@ public class MyPriorityQueue
                   soph++;
                case 3:
                   fresh++;
-                  
+
             }
          }
          display(time,q);
@@ -64,7 +64,7 @@ public class MyPriorityQueue
                juniorWait += waitT;
                if(maxJunior < juniorWait){
                   maxJunior = juniorWait;
-               } 
+               }
             }
             else if(q.peek().getGrade() == 2){
                waitT = time -q.remove().getTime();
@@ -81,7 +81,7 @@ public class MyPriorityQueue
                }
             }
             serviceT = (int)(Math.random()*6 +2);
-         
+
          }
       }
       while(!q.isEmpty()){
@@ -102,7 +102,7 @@ public class MyPriorityQueue
                juniorWait += waitT;
                if(maxJunior < juniorWait){
                   maxJunior = juniorWait;
-               } 
+               }
             }
             else if(q.peek().getGrade() == 2){
                waitT = time -q.remove().getTime();
@@ -119,21 +119,21 @@ public class MyPriorityQueue
                }
             }
             serviceT = (int)(Math.random()*6 +2);
-         } 
+         }
          time++;
       }
-      
-   
-      
+
+
+
       System.out.println("Customer\t\tTotal\t\tLongest\t\tAverage Wait");
       System.out.println("Senior  \t\t"+(int)senior+"\t\t"+(int)maxSenior+"\t\t"+(seniorWait/senior));
       System.out.println("Junior  \t\t"+(int)junior+"\t\t"+(int)maxJunior+"\t\t"+(juniorWait/junior));
       System.out.println("Sophomore  \t\t"+(int)soph+"\t\t"+(int)maxSoph+"\t\t"+(sophWait/soph));
       System.out.println("Freshman  \t\t"+(int)fresh+"\t\t"+(int)maxFresh+"\t\t"+(freshWait/fresh));
-   
-   
+
+
    }
-   
+
    public static void display(int t, PriorityQueue<Customer> q)
    {
       System.out.println(t + ": " + q);
@@ -144,7 +144,7 @@ class Customer implements Comparable<Customer>
 {
    private int grade;
    private int time;
-   
+
    public Customer(int s, int i){
       grade = s;
       time = i;
@@ -187,7 +187,7 @@ class Customer implements Comparable<Customer>
    }
 }
 
-class MyPriorityQueuee{
+/*class MyPriorityQueuee{
 
    ArrayList<Object> array;
    int size;
@@ -208,11 +208,11 @@ class MyPriorityQueuee{
    public void peek(){
       return array.get(0);
    }
-    
+
 
 }
 
-
+*/
 
 /*-------------------------
 
@@ -1385,6 +1385,6 @@ class MyPriorityQueuee{
  Senior			47			12			3.4893617021276597
  Junior			56			22			5.0
  Sophomor			53			84			20.830188679245282
- Freshman			55			250			123.6    
+ Freshman			55			250			123.6
 
  ******************************************/
