@@ -140,7 +140,13 @@ public class TreeLab
    /*  there are clever ways and hard ways to count grandparents  */ 
    public static int countGrandParents(TreeNode t)
    {
-      return -1;
+      if(t == null){
+         return 0;
+      }else if( ((t.getLeft().getLeft() != null)||(t.getLeft().getRight() != null)) && ((t.getRight().getLeft() != null)||(t.getRight().getRight()!=null))) {
+         return 1;
+      }else{
+         return countLeaves(t.getLeft()) + countLeaves(t.getRight());
+      }
    }
    
    public static int countOnlys(TreeNode t)
@@ -160,14 +166,21 @@ public class TreeLab
 	 */
    public static int height(TreeNode t)
    {
-     if(t == null)
+      if(t == null){
+         return 0;
+      }else{
+         if (height(t.getLeft()) > height(t.getRight()))
+            return 1 + height(t.getLeft());
+         else
+            return 1 + height(t.getRight());
+      }
    }
    
    /* Returns the max of sum of heights on both sides of tree
 	 */   
    public static int longestPath(TreeNode t)
    {
-      return -1;
+      return Math.max(height(t.getLeft()),height(t.getRight()));
    }
    
    /*  Object must be cast to Comparable in order to call .compareTo  
@@ -193,16 +206,22 @@ public class TreeLab
     */
    public static String displayLevelOrder(TreeNode t)
    {
-      String result = "";
-      Queue<Object> q = new LinkedList<Object>();
-      
-      q.add(t);
-      while(t.getLeft() != null){
-         q.add(t.getLeft());
-         q.add(t.getRight());
-         t = t.getLeft();
+      String result ="";
+      Queue<Object> temp = new LinkedList<Object>();
+      if (t != null)
+      {
+         temp.add(t);
+         while (!temp.isEmpty())
+         {
+            t = (TreeNode) temp.remove();
+            result += t.getValue();
+            if (t.getLeft() != null)
+               temp.add(t.getLeft());
+            if (t.getRight() != null)
+               temp.add(t.getRight());
+         }
       }
-      return null;
+      return result;
    }
 }
 
