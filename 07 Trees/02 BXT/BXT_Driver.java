@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 2/7/19
 
 import java.util.*;
 
@@ -48,7 +48,21 @@ class BXT
     
    public void buildTree(String str)
    {
-     	
+      String[] arr = str.split(" ");
+      Stack<TreeNode> s = new Stack<TreeNode>();
+      
+      for(String a: arr){
+         if(!isOperator(a)){
+            s.push(new TreeNode(a));
+         }
+         else{
+            TreeNode temp = new TreeNode(a);
+            temp.setRight(s.pop());
+            temp.setLeft(s.pop());
+            s.push(temp);
+         }
+      }
+      root = s.pop();
    }
    
    public double evaluateTree()
@@ -58,17 +72,32 @@ class BXT
    
    private double evaluateNode(TreeNode t)  //recursive
    {
-   
+      if(isOperator((String)t.getValue())){
+         return computeTerm((String)t.getValue(),evaluateNode(t.getLeft()),evaluateNode(t.getRight()));
+      }else{
+         return Double.parseDouble((String)t.getValue());
+      }
    }
    
    private double computeTerm(String s, double a, double b)
    {
-     
+      if("+".equals(s)){
+         return a+b;
+      }
+      else if("-".equals(s)){
+         return a-b;
+      }
+      else if("/".equals(s)){
+         return a/b;
+      }
+      else{
+         return a*b;
+      }
    }
    
    private boolean isOperator(String s)
    {
-    
+      return "+-/*".contains(s);
    }
    
    public String display()
@@ -78,7 +107,15 @@ class BXT
    
    private String display(TreeNode t, int level)
    {
-   
+      String toRet = "";
+      if(t == null)
+         return "";
+      toRet += display(t.getRight(), level + 1); //recurse right
+      for(int k = 0; k < level; k++)
+         toRet += "\t";
+      toRet += t.getValue() + "\n";
+      toRet += display(t.getLeft(), level + 1); //recurse left
+      return toRet;
    }
     
    public String inorderTraverse()
@@ -88,7 +125,15 @@ class BXT
    
    private  String inorderTraverse(TreeNode t)
    {
-     
+      String toReturn = "";
+      if(t == null)
+         return "";
+   
+      toReturn += inorderTraverse(t.getLeft());//recurse left
+      toReturn += t.getValue() + " "; //inorder visit
+      toReturn += inorderTraverse(t.getRight());   //recurse right
+   
+      return toReturn;
    }
    
    public String preorderTraverse()
@@ -96,9 +141,15 @@ class BXT
       return preorderTraverse(root);
    }
    
-   private String preorderTraverse(TreeNode root)
+   private String preorderTraverse(TreeNode t)
    {
-   
+      String toReturn = "";
+      if(t == null)
+         return "";
+      toReturn += t.getValue() + " ";              //preorder visit
+      toReturn += preorderTraverse(t.getLeft());   //recurse left
+      toReturn += preorderTraverse(t.getRight());  //recurse right
+      return toReturn;
    }
 
 }

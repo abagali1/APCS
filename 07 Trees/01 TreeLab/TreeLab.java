@@ -18,21 +18,21 @@ public class TreeLab
    {
       root = buildTree( root, s );
       System.out.print( display( root, 0) );
-
+   
       System.out.print("\nPreorder: " + preorderTraverse(root));
       System.out.print("\nInorder: " + inorderTraverse(root));
       System.out.print("\nPostorder: " + postorderTraverse(root));
-
+   
       System.out.println("\n\nNodes = " + countNodes(root));
       System.out.println("Leaves = " + countLeaves(root));
       System.out.println("Only children = " + countOnlys(root));
       System.out.println("Grandparents = " + countGrandParents(root));
-
+   
       System.out.println("\nHeight of tree = " + height(root));
       System.out.println("Longest path = " + longestPath(root));
       System.out.println("Min = " + min(root));
       System.out.println("Max = " + max(root));
-
+   
       System.out.println("\nBy Level: ");
       System.out.println(displayLevelOrder(root));
    }
@@ -95,11 +95,11 @@ public class TreeLab
       String toReturn = "";
       if(t == null)
          return "";
-
+   
       toReturn += inorderTraverse(t.getLeft());//recurse left
       toReturn += t.getValue() + " "; //inorder visit
       toReturn += inorderTraverse(t.getRight());   //recurse right
-
+   
       return toReturn;
    }
 
@@ -108,11 +108,11 @@ public class TreeLab
       String toReturn = "";
       if(t == null)
          return "";
-
+   
       toReturn += inorderTraverse(t.getLeft());//recurse left
       toReturn += inorderTraverse(t.getRight());   //recurse right
       toReturn += t.getValue() + " "; //inorder visit
-
+   
       return toReturn;
    }
 
@@ -120,32 +120,33 @@ public class TreeLab
    {
       if(t == null)
          return 0;
-
+   
       return 1+countNodes(t.getRight())+countNodes(t.getLeft());
-
+   
    }
 
    public static int countLeaves(TreeNode t)
    {
       if(t == null){
          return 0;
-      }else if(t.getLeft() == null && t.getRight() == null){
+      }
+      else if(t.getLeft() == null && t.getRight() == null){
          return 1;
-      }else{
+      }
+      else{
          return countLeaves(t.getLeft()) + countLeaves(t.getRight());
       }
-
+   
    }
 
    /*  there are clever ways and hard ways to count grandparents  */
    public static int countGrandParents(TreeNode t)
    {
-      if(t == null){
+      if(height(t) < 2){
          return 0;
-      }else if( ((t.getLeft().getLeft() != null)||(t.getLeft().getRight() != null)) && ((t.getRight().getLeft() != null)||(t.getRight().getRight()!=null))) {
-         return 1;
-      }else{
-         return countLeaves(t.getLeft()) + countLeaves(t.getRight());
+      }
+      else{
+         return 1+countGrandParents(t.getLeft())+countGrandParents(t.getRight());
       }
    }
 
@@ -153,11 +154,14 @@ public class TreeLab
    {
       if(t == null){
          return 0;
-      }else if(t.getLeft() == null && t.getRight() != null){
+      }
+      else if(t.getLeft() == null && t.getRight() != null){
          return 1+countOnlys(t.getRight());
-      }else if(t.getLeft() != null && t.getRight() == null){
+      }
+      else if(t.getLeft() != null && t.getRight() == null){
          return 1+countOnlys(t.getLeft());
-      }else{
+      }
+      else{
          return countOnlys(t.getLeft()) + countOnlys(t.getRight());
       }
    }
@@ -167,8 +171,9 @@ public class TreeLab
    public static int height(TreeNode t)
    {
       if(t == null){
-         return 0;
-      }else{
+         return -1;
+      }
+      else{
          if (height(t.getLeft()) > height(t.getRight()))
             return 1 + height(t.getLeft());
          else
@@ -180,7 +185,12 @@ public class TreeLab
 	 */
    public static int longestPath(TreeNode t)
    {
-      return height(t.getLeft())+height(t.getRight());
+      if(t == null)
+         return 0;
+      else if(t.getLeft() == null && t.getRight() == null)
+         return 0;
+      else  
+         return height(t.getLeft())+height(t.getRight())+2;
    }
 
    /*  Object must be cast to Comparable in order to call .compareTo
@@ -188,9 +198,69 @@ public class TreeLab
    @SuppressWarnings("unchecked")
    public static Object min(TreeNode t)
    {
-
-      return null;
-
+      if(t == null)
+         return null;  
+      if(t.getLeft() == null && t.getRight() == null){
+         return t.getValue();
+      }
+      else{
+         if(t.getRight() == null){
+            Comparable temp = (Comparable)t.getValue();
+            Comparable min = (Comparable)min(t.getLeft());
+            
+            if(temp.compareTo(min) < 0){
+               return temp;
+            }
+            else{
+               return min(t.getLeft());
+            }  
+              
+         }
+         else if(t.getLeft() == null){
+            Comparable temp = (Comparable)t.getValue();
+            Comparable min = (Comparable)min(t.getRight());
+            
+            if(temp.compareTo(min) < 0){
+               return temp;
+            }
+            else{
+               return min(t.getRight());
+            }
+         }
+         else{
+            Comparable temp = (Comparable)t.getValue();
+            Comparable leftMin = (Comparable)min(t.getLeft());
+            Comparable rightMin = (Comparable)min(t.getRight());
+            
+            if(temp.compareTo(leftMin) < 0){
+               if(temp.compareTo(rightMin) > 0){
+                  return min(t.getRight());
+               }
+               else{
+                  return temp;
+               }
+            }
+            else if(temp.compareTo(rightMin) < 0){
+               if(temp.compareTo(leftMin) > 0){
+                  return min(t.getLeft());
+               }
+               else{
+                  return temp;
+               }
+            }else if(leftMin.compareTo(rightMin) < 0){
+               if(leftMin.compareTo(temp) < 0){
+                  return temp;
+               }else{
+                  return
+               }
+            }
+            else{
+               return temp;
+            }
+         
+         }
+      }
+   
    }
 
    /*  Object must be cast to Comparable in order to call .compareTo
@@ -199,6 +269,7 @@ public class TreeLab
    public static Object max(TreeNode t)
    {
       return null;
+   
    }
 
    /* This method is not recursive.  Use a local queue
