@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 2/10/19
 
 import java.util.*;
 
@@ -50,7 +50,10 @@ public class BinarySearchTree
     */
    public static TreeNode buildTree(TreeNode t, String str)
    {
-      return null;
+      for(char c: str.toCharArray()){
+         t = insert(t,""+c);
+      }
+      return t;
    }
    
    /* Recursive algorithm to build a BST:  if the node is 
@@ -62,14 +65,33 @@ public class BinarySearchTree
     */
    public static TreeNode insert(TreeNode t, String s)
    {  	
-      return null;
+      if(t == null){
+         return new TreeNode(s);
+      }else{
+         if( (((Comparable)t.getValue()).compareTo(s)) > 0){
+            t.setLeft(new TreeNode(s));
+            return insert(t.getLeft(),s);
+         }else{
+            t.setRight(new TreeNode(s));
+            return insert(t.getRight(),s);
+         }
+      }
    }
    
    /* Copy the code that is in TreeLab  
     */
    public static String display(TreeNode t, int level)
    {
-      return null;
+           // turn your head towards left shoulder visualize tree
+      String toRet = "";
+      if(t == null)
+         return "";
+      toRet += display(t.getRight(), level + 1); //recurse right
+      for(int k = 0; k < level; k++)
+         toRet += "\t";
+      toRet += t.getValue() + "\n";
+      toRet += display(t.getLeft(), level + 1); //recurse left
+      return toRet;
    }
    
    /* Iterative algorithm:  create a temporary pointer p at 
@@ -84,7 +106,15 @@ public class BinarySearchTree
     */    
    public static boolean find(TreeNode t, Comparable x)
    {
-      return false;
+      if(t == null){
+         return false;
+      }else{
+         if((((Comparable)t.getValue()).compareTo(x)) > 0){
+            return find(t.getLeft(), x);
+         }else{
+            return find(t.getRight(),x);
+         }
+      }
    }
       
    /*	Starting at the root, return the min value in the BST.   
@@ -93,7 +123,10 @@ public class BinarySearchTree
     */
    public static Object min(TreeNode t)
    {
-      return null;
+      while(t.getLeft() != null){
+         t = t.getLeft();
+      }
+      return t;
    }
       
    /* Starting at the root, return the max value in the BST.  
@@ -101,12 +134,21 @@ public class BinarySearchTree
     */
    public static Object max(TreeNode t)
    {
-      return null;
+      if(t.getRight() == null){
+         return t;
+      }else{
+         return min(t.getRight());
+      }
    }
    
    public static String smallToLarge(TreeNode t)
    {
-      return null;
+      if(t == null){
+         return "";
+      }else{
+         return t.getValue().toString() + smallToLarge(t.getLeft()) + smallToLarge(t.getRight());
+         
+      }
    }
 }
 
