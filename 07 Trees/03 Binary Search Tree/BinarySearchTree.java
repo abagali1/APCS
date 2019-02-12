@@ -68,13 +68,12 @@ public class BinarySearchTree
       if(t == null){
          return new TreeNode(s);
       }else{
-         if( (((Comparable)t.getValue()).compareTo(s)) > 0){
-            t.setLeft(new TreeNode(s));
-            return insert(t.getLeft(),s);
+         if( (((Comparable)t.getValue()).compareTo(s)) >= 0){
+            t.setLeft(insert(t.getLeft(),s));
          }else{
-            t.setRight(new TreeNode(s));
-            return insert(t.getRight(),s);
+            t.setRight(insert(t.getRight(),s));
          }
+         return t;
       }
    }
    
@@ -106,6 +105,7 @@ public class BinarySearchTree
     */    
    public static boolean find(TreeNode t, Comparable x)
    {
+   /*
       if(t == null){
          return false;
       }else{
@@ -114,7 +114,22 @@ public class BinarySearchTree
          }else{
             return find(t.getRight(),x);
          }
+      }*/
+      
+      TreeNode p = t;
+      while(p != null){
+         if( ((Comparable)(p.getValue())).compareTo(x) == 0){
+            return true;
+         }else{
+            Comparable temp = (Comparable)p.getValue();
+            if( temp.compareTo(x) > 0){
+               p = p.getLeft();
+            }else{
+               p = p.getRight();
+            }
+         }
       }
+      return false;
    }
       
    /*	Starting at the root, return the min value in the BST.   
@@ -126,7 +141,7 @@ public class BinarySearchTree
       while(t.getLeft() != null){
          t = t.getLeft();
       }
-      return t;
+      return t.getValue();
    }
       
    /* Starting at the root, return the max value in the BST.  
@@ -135,9 +150,9 @@ public class BinarySearchTree
    public static Object max(TreeNode t)
    {
       if(t.getRight() == null){
-         return t;
+         return t.getValue();
       }else{
-         return min(t.getRight());
+         return max(t.getRight());
       }
    }
    
@@ -146,7 +161,7 @@ public class BinarySearchTree
       if(t == null){
          return "";
       }else{
-         return t.getValue().toString() + smallToLarge(t.getLeft()) + smallToLarge(t.getRight());
+         return smallToLarge(t.getLeft()) + " " + t.getValue().toString()  + " " + smallToLarge(t.getRight());
          
       }
    }
