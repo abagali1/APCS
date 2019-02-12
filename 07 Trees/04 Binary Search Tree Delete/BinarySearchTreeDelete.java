@@ -97,7 +97,25 @@ public class BinarySearchTreeDelete
       while(current !=null)
       {
          int compare = target.compareTo((String)current.getValue());
-        // ------->  your code goes here
+         if( compare == 0){
+           if( current.getLeft() == null && current.getRight() == null){
+               if(parent != null){
+                   current.setLeft(null);
+                   current.setRight(null);
+                   if(parent.getValue().equals(current.getValue())
+               }
+           } 
+         }
+         else{
+            if(compare < 0){
+               parent = current;
+               current = current.getLeft();
+            }
+            else{
+               parent = current;
+               current = current.getRight();
+            }
+         }
       
       
       

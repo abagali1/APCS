@@ -104,18 +104,7 @@ public class BinarySearchTree
     * subtree.  Otherwise, return true.   
     */    
    public static boolean find(TreeNode t, Comparable x)
-   {
-   /*
-      if(t == null){
-         return false;
-      }else{
-         if((((Comparable)t.getValue()).compareTo(x)) > 0){
-            return find(t.getLeft(), x);
-         }else{
-            return find(t.getRight(),x);
-         }
-      }*/
-      
+   {    
       TreeNode p = t;
       while(p != null){
          if( ((Comparable)(p.getValue())).compareTo(x) == 0){
