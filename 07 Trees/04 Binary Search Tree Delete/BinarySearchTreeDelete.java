@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali 
+// Date: 2/14/19
 
 import java.util.*;
 
@@ -90,24 +90,17 @@ public class BinarySearchTreeDelete
       return false;
    }
    
-   public static TreeNode delete(TreeNode current, String target)
-   {
+   public static TreeNode delete(TreeNode current, String target){
       TreeNode root = current;  //don't lose the root!
       TreeNode parent = null;
-      while(current !=null)
-      {
-         int compare = target.compareTo((String)current.getValue());
-         if( compare == 0){
-           if( current.getLeft() == null && current.getRight() == null){
-               if(parent != null){
-                   current.setLeft(null);
-                   current.setRight(null);
-                   if(parent.getValue().equals(current.getValue())
-               }
-           } 
-         }
-         else{
-            if(compare < 0){
+      
+      if(!contains(current,target)){
+         return null;
+      }
+      else{
+         while( ((Comparable)current.getValue()).compareTo(target) != 0){
+            Comparable temp = (Comparable)current.getValue();
+            if( temp.compareTo(target) > 0){
                parent = current;
                current = current.getLeft();
             }
@@ -116,11 +109,101 @@ public class BinarySearchTreeDelete
                current = current.getRight();
             }
          }
-      
-      
-      
-      
+         
+         if(current.getLeft() == null && current.getRight() == null){
+            if(current == root){
+               return null;
+            }
+            else{
+               if( parent.getLeft() == current ){
+                  parent.setLeft(null);
+                  return root;
+               }
+               else{
+                  parent.setRight(null);
+                  return root;
+               }
+            }
+         }
+         else if(current.getRight() != null && current.getLeft() == null){
+            if(current == root){
+               TreeNode ret = root.getRight();
+               root.setRight(null);
+               return ret;
+            }
+            else{
+               if(parent.getLeft() == current){
+                  parent.setLeft(current.getRight());
+                  current.setRight(null);
+                  return root;
+               }
+               else{
+                  parent.setRight(current.getRight());
+                  current.setRight(null);
+                  return root;
+               }
+            }
+         }
+         else if(current.getRight() == null && current.getLeft() != null){
+            if(current == root){
+               TreeNode ret = root.getLeft();
+               root.setLeft(null);
+               return ret;
+            }
+            else{
+               if(parent.getLeft() == current){
+                  parent.setLeft(current.getLeft());
+                  current.setLeft(null);
+                  return root;
+               }
+               else{
+                  parent.setLeft(current.getLeft());
+                  current.setLeft(null);
+                  return root;
+               }
+            }
+         }
+         else if(current.getLeft() != null && current.getRight() != null){
+            TreeNode max = current.getLeft();
+            TreeNode maxParent = current;
+            while(max.getRight() != null){
+               maxParent = max;
+               max = max.getRight();
+            }
+            if(max.getLeft() == null){
+               maxParent.setRight(null);
+               max.setLeft(current.getLeft());
+               max.setRight(current.getRight());
+            
+               if(parent.getLeft() == null){
+                  parent.setLeft(max);
+               }
+               else{
+                  parent.setRight(max);
+               }
+               current.setLeft(null);
+               current.setRight(null);
+               return root;
+            }
+            else{
+               maxParent.setRight(max.getLeft());
+               max.setLeft(current.getLeft());
+               max.setRight(current.getRight());
+               if(parent.getLeft() == null){
+                  parent.setLeft(max);
+               }
+               else{
+                  parent.setRight(max);
+               }
+               current.setLeft(null);
+               current.setRight(null);
+               return root;
+            }
+         }
       }
+         
+      
+      
       return root;  //never reached
    }
 }
