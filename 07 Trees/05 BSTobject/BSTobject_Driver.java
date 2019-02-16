@@ -105,6 +105,9 @@ class BSTobject <E extends Comparable<E>> implements BSTinterface<E>
          return t;
       }
    }
+   public int size(){
+      return size;
+   }
    
    /* Implement the interface here.  Use TreeNode as an example,
     * but root is a field. You need add, contains, isEmpty, 
@@ -133,6 +136,9 @@ class BSTobject <E extends Comparable<E>> implements BSTinterface<E>
       return root == null;
    }
    public E delete(E element){
+      if(contains(element)){
+         size--;
+      }
       return (E)delete(root, element);
    }
    
@@ -247,11 +253,12 @@ class BSTobject <E extends Comparable<E>> implements BSTinterface<E>
             }
          }
       }
-         
-      
-      
       return root.getValue();  //never reached
    }
+   public String toString(){
+      return "":
+   }
+
 
    
 
@@ -294,4 +301,5 @@ class BSTobject <E extends Comparable<E>> implements BSTinterface<E>
       } 
       
    }
+
 }
