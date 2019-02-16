@@ -251,7 +251,7 @@ public class TreeLab
                if(leftMin.compareTo(temp) < 0){
                   return temp;
                }else{
-                  return
+                  return leftMin;
                }
             }
             else{

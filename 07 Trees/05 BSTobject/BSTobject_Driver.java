@@ -1,7 +1,8 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 2/15/19
 
 import java.util.*;
+import java.io.*;
 
 public class BSTobject_Driver
 {
@@ -50,8 +51,8 @@ public class BSTobject_Driver
       }
       catch (Exception e)
       {
-        System.out.println("File not found.");
-      }        }
+         System.out.println("File not found.");
+      }        
       
       for(int i = 0; i < numberOfWidgets; i++)   
       {
@@ -74,7 +75,13 @@ interface BSTinterface<E extends Comparable<E>>
 class BSTobject <E extends Comparable<E>> implements BSTinterface<E>
 { 
    // Declare 2 fields 
+   private Node root;
+   private int size;
    // Create a default constructor
+   public BSTobject(){
+      root = null;
+      size = 0;
+   }   
       
    //instance methods
    public E add( E obj )
@@ -87,15 +94,166 @@ class BSTobject <E extends Comparable<E>> implements BSTinterface<E>
    //recursive helper method
    private Node<E> add( Node<E> t, E obj )
    {
-         
+      if(t == null){
+         return new Node<E>(obj);
+      }else{
+         if( ((t.getValue()).compareTo(obj)) >= 0){
+            t.setLeft(add(t.getLeft(),obj));
+         }else{
+            t.setRight(add(t.getRight(),obj));
+         }
+         return t;
+      }
    }
    
    /* Implement the interface here.  Use TreeNode as an example,
     * but root is a field. You need add, contains, isEmpty, 
     * delete, size, and toString.  
     */
+   public boolean contains(E element){
+      return contains(root, element);
+   }
+   public boolean contains(Node<E> t, E x){
+      Node<E> p = t;
+      while(p != null){
+         if( ((p.getValue())).compareTo(x) == 0){
+            return true;
+         }else{
+            Comparable temp = p.getValue();
+            if( temp.compareTo(x) > 0){
+               p = p.getLeft();
+            }else{
+               p = p.getRight();
+            }
+         }
+      }
+      return false;
+   }
+   public boolean isEmpty(){
+      return root == null;
+   }
+   public E delete(E element){
+      return (E)delete(root, element);
+   }
+   
+   public E delete(Node<E> current, E target){
+      Node<E> root = current;  //don't lose the root!
+      Node<E> parent = null;
+      
+      if(!contains(current,target)){
+         return null;
+      }
+      else{
+         while( ((Comparable)current.getValue()).compareTo(target) != 0){
+            Comparable temp = (Comparable)current.getValue();
+            if( temp.compareTo(target) > 0){
+               parent = current;
+               current = current.getLeft();
+            }
+            else{
+               parent = current;
+               current = current.getRight();
+            }
+         }
+         
+         if(current.getLeft() == null && current.getRight() == null){
+            if(current == root){
+               return null;
+            }
+            else{
+               if( parent.getLeft() == current ){
+                  parent.setLeft(null);
+                  return current.getValue();
+               }
+               else{
+                  parent.setRight(null);
+                  return current.getValue();
+               }
+            }
+         }
+         else if(current.getRight() != null && current.getLeft() == null){
+            if(current == root){
+               Node<E> ret = root.getRight();
+               root.setRight(null);
+               return ret.getValue();
+            }
+            else{
+               if(parent.getLeft() == current){
+                  parent.setLeft(current.getRight());
+                  current.setRight(null);
+                  return current.getValue();
+               }
+               else{
+                  parent.setRight(current.getRight());
+                  current.setRight(null);
+                  return current.getValue();
+               }
+            }
+         }
+         else if(current.getRight() == null && current.getLeft() != null){
+            if(current == root){
+               Node<E> ret = root.getLeft();
+               root.setLeft(null);
+               return ret.getValue();
+            }
+            else{
+               if(parent.getLeft() == current){
+                  parent.setLeft(current.getLeft());
+                  current.setLeft(null);
+                  return current.getValue();
+               }
+               else{
+                  parent.setLeft(current.getLeft());
+                  current.setLeft(null);
+                  return current.getValue();
+               }
+            }
+         }
+         else if(current.getLeft() != null && current.getRight() != null){
+            Node<E> max = current.getLeft();
+            Node<E> maxParent = current;
+            while(max.getRight() != null){
+               maxParent = max;
+               max = max.getRight();
+            }
+            if(max.getLeft() == null){
+               maxParent.setRight(null);
+               max.setLeft(current.getLeft());
+               max.setRight(current.getRight());
+            
+               if(parent.getLeft() == null){
+                  parent.setLeft(max);
+               }
+               else{
+                  parent.setRight(max);
+               }
+               current.setLeft(null);
+               current.setRight(null);
+               return current.getValue();
+            }
+            else{
+               maxParent.setRight(max.getLeft());
+               max.setLeft(current.getLeft());
+               max.setRight(current.getRight());
+               if(parent.getLeft() == null){
+                  parent.setLeft(max);
+               }
+               else{
+                  parent.setRight(max);
+               }
+               current.setLeft(null);
+               current.setRight(null);
+               return current.getValue();
+            }
+         }
+      }
+         
+      
+      
+      return root.getValue();  //never reached
+   }
 
-
+   
 
     
    /* Private inner class 
@@ -103,7 +261,37 @@ class BSTobject <E extends Comparable<E>> implements BSTinterface<E>
    private class Node<E>
    {
       // 3 fields 
+      private E value;
+      private Node<E> left;
+      private Node<E> right;
       // 2 constructors, one-arg and three-arg
+      public Node(E value){
+         this.value = value;
+      }
+      public Node(E value, Node<E> left, Node<E> right){
+         this.value = value;
+         this.left = left;
+         this.right = right;
+      }
       //methods--Use TreeNode as an example. See Quick Reference Guide.
+      public E getValue(){
+         return value;
+      }
+      public Node<E> getLeft(){
+         return left;
+      }
+      public Node<E> getRight(){
+         return right;
+      }
+      public void setValue(E value){
+         this.value = value;
+      }
+      public void setLeft(Node<E> left){
+         this.left = left;
+      }
+      public void setRight(Node<E> right){
+         this.right = right;
+      } 
+      
    }
 }
