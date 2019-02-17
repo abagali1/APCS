@@ -37,8 +37,12 @@ public class BSTobject_Driver
     */
    public static BSTobject<String> build(BSTobject<String> tree, String str)
    {
-     
+      tree = new BSTobject<String>();
+      for(char c: str.toCharArray()){
+         tree.add(c+"");
+      }
               
+      return tree;
    }
    
    /* Build the tree for Widgets, Day 2
@@ -53,12 +57,15 @@ public class BSTobject_Driver
       {
          System.out.println("File not found.");
       }        
-      
+      tree = new BSTobject<Widget>();
       for(int i = 0; i < numberOfWidgets; i++)   
       {
-      
+         int cube = Integer.parseInt(infile.nextLine());
+         int hand = Integer.parseInt(infile.nextLine());
+         tree.add(new Widget(cube,hand));
       
       }
+      return tree;
    }
 }
 
@@ -256,10 +263,20 @@ class BSTobject <E extends Comparable<E>> implements BSTinterface<E>
       return root.getValue();  //never reached
    }
    public String toString(){
-      return "":
+      return display(root,0);
    }
 
-
+   public String display(Node<E> t, int level){
+      String toRet = "";
+      if(t == null)
+         return "";
+      toRet += display(t.getRight(), level + 1); //recurse right
+      for(int k = 0; k < level; k++)
+         toRet += "\t";
+      toRet += t.getValue() + "\n";
+      toRet += display(t.getLeft(), level + 1); //recurse left
+      return toRet;
+   }
    
 
     
