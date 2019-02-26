@@ -98,6 +98,8 @@ public class BinarySearchTreeDelete
          return null;
       }
       else{
+      
+      
          while( ((Comparable)current.getValue()).compareTo(target) != 0){
             Comparable temp = (Comparable)current.getValue();
             if( temp.compareTo(target) > 0){
@@ -109,7 +111,33 @@ public class BinarySearchTreeDelete
                current = current.getRight();
             }
          }
+         if(current.getLeft() != null && current.getRight() != null && current == root){
+            TreeNode max = current.getLeft();
+            TreeNode maxParent = current;
+            while(max.getRight() != null){
+               maxParent = max;
+               max = max.getRight();
+            }
+            if(max.getLeft() == null && max.getRight() == null){
+               maxParent.setRight(null);
+               max.setLeft(current.getLeft());
+               max.setRight(current.getRight());
+               current.setLeft(null);
+               current.setRight(null);
+               root = max;
+               return root;
+            }
+            else{
+               maxParent.setRight(max.getLeft());
+               max.setRight(current.getRight());
+               max.setLeft(current.getLeft());
+               current.setLeft(null);
+               current.setRight(null);
+               root = max;
+               return root;
+            }
          
+         }
          if(current.getLeft() == null && current.getRight() == null){
             if(current == root){
                return null;
@@ -184,6 +212,7 @@ public class BinarySearchTreeDelete
                current.setLeft(null);
                current.setRight(null);
                return root;
+            
             }
             else{
                maxParent.setRight(max.getLeft());
@@ -197,6 +226,7 @@ public class BinarySearchTreeDelete
                }
                current.setLeft(null);
                current.setRight(null);
+               
                return root;
             }
          }

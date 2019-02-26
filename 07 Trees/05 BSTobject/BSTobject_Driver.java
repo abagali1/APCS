@@ -12,11 +12,13 @@ public class BSTobject_Driver
    public static void main( String[] args ) 
    {
       // Day one 
-      tree = new BSTobject<String>();
-      tree = build(tree, "T");
-      System.out.print(tree);
-      System.out.println("Size: " + tree.size());
-      System.out.println("Is empty: "+ tree.isEmpty());
+      treeOfWidgets = new BSTobject<Widget>();
+      treeOfWidgets = build(treeOfWidgets, new File("widgets.txt"));
+
+      System.out.print(treeOfWidgets);
+      System.out.println("Size: " + treeOfWidgets.size());
+      System.out.println("Deleted: " + treeOfWidgets.delete(new Widget(13,15)));
+      System.out.println("Is empty: "+ treeOfWidgets.isEmpty());
    		
    	// Day two
    	// Your assignment the second day is to finish the BSTobject class.  
