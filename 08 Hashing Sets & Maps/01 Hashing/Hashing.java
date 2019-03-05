@@ -1,5 +1,5 @@
- // Name: 
- // Date: 
+ // Name: Anup Bagali
+ // Date: 3/5/19
 
 /* 
    Assignment:  This hashing program results in collisions.
@@ -73,16 +73,16 @@ class HashtableLinearProbe implements Hashtable
   
    public HashtableLinearProbe(int size)//constructor
    {
-                          
+      array = new Object[size];     
    }
    
    public void add(Object obj)
    {
       int code = obj.hashCode();
       int index = Math.abs(code % array.length);
-      if(  )  //empty
+      if(array[index] == null)  //empty
       {
-         //insert it
+         array[index] = obj;
          System.out.println(obj + "\t" + code + "\t" + index);
       }
       else //collision
@@ -96,7 +96,9 @@ class HashtableLinearProbe implements Hashtable
    
    public int linearProbe(int index)
    {      
-   
+      while(array[index] != null){
+         index++;
+      }
       
       return index;
    }
@@ -106,17 +108,17 @@ class HashtableLinearProbe implements Hashtable
       int index = Math.abs(obj.hashCode() % array.length);
       while(array[index] != null)
       {
-         if(  )  //found it
+         if(obj.equals(array[index]))  //found it
          {
-            
+            return index;  
          }
          else //search for it in a linear probe manner
          {
-            
+            index++;
             System.out.println("Looking at index " + index);
          }
       }
-      //not found
+      return -1;
    }
 }
 
@@ -128,16 +130,23 @@ class HashtableRehash implements Hashtable
    
    public HashtableRehash(int size) //constructor
    {
-                             
+      array = new Object[size];
+      constant = 2;
+      for(int i = 2;i<=array.length-1;i++){
+         if( relativePrime(i,array.length-1) ){
+            constant = i;
+            break; 
+         }
+      }                 
    }
    
    public void add(Object obj)
    {
       int code = obj.hashCode();
       int index = Math.abs(code % array.length);
-      if(  )  //empty
+      if(array[index] == null)  //empty
       {
-         //insert it
+         array[index] = obj;
          System.out.println(obj + "\t" + code + "\t" + index);
       }
       else //collision
@@ -151,7 +160,11 @@ class HashtableRehash implements Hashtable
    
    public int rehash(int index)
    {
-      
+   
+      while(array[index] != null){
+         index = (index+constant) % array.length;
+      }
+      return index;
    }
    
    public  int indexOf(Object obj)
@@ -159,17 +172,26 @@ class HashtableRehash implements Hashtable
       int index = Math.abs(obj.hashCode() % array.length);
       while(array[index] != null)
       {
-         if(  )  //found it
+         if(obj.equals(array[index]))  //found it
          {
-            
+            return index;
          }
          else //search for it in a rehashing manner
          {
-            
+            index = (index+constant) % array.length;
             System.out.println("Looking at index " + index);
          }
       }
-      //not found
+      return -1;
+   }
+   public boolean relativePrime(int a,int b){
+      int temp = 0;
+      while(b != 0){
+         temp = a;
+         a =b;
+         b = temp % b;
+      }
+      return a==1;
    }
 }
 
@@ -180,8 +202,10 @@ class HashtableChaining implements Hashtable
    
    public HashtableChaining(int size)
    {
-      //instantiate the array
-      //instantiate the LinkedLists
+      array = new LinkedList[size];
+      for(int i=0;i<=array.length-1;i++){
+         array[i] = new LinkedList<Object>();
+      }
                             
    }
    public void add(Object obj)
@@ -197,15 +221,16 @@ class HashtableChaining implements Hashtable
       int index = Math.abs(obj.hashCode() % array.length);
       if( !array[index].isEmpty() )
       {
-         if(  )  //found it
+         if(array[index].contains(obj))  //found it
          {
-            
+            return index;
          }
          else //search for it in a chaining manner
          {
-        
+            index++;
+            System.out.println("Looking at index " + index);
          }
       }
-      //not found
+      return -1;
    }
 }
