@@ -133,7 +133,7 @@ class HashtableRehash implements Hashtable
       array = new Object[size];
       constant = 2;
       for(int i = 2;i<=array.length-1;i++){
-         if( relativePrime(i,array.length-1) ){
+         if( relativePrime(i,array.length) ){
             constant = i;
             break; 
          }
