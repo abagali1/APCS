@@ -1,5 +1,5 @@
-// Name: 
-// Date: 
+// Name: Anup Bagali
+// Date: 3/7/19
 
 import java.util.*;
 import java.io.*;
@@ -15,8 +15,50 @@ public class SetsOfLetters
    public static void fillTheSets(String fn) throws FileNotFoundException
    {
       Scanner infile = new Scanner(new File(fn));
-      /*  enter your code here  */
+      Set<String> lower = new TreeSet<String>();
+      Set<String> upper = new TreeSet <String>();
+      Set<String> o = new TreeSet<String>();
       
+      while(infile.hasNextLine()){
+         Set<String> ltemp = new TreeSet<String>();
+         Set<String> utemp = new TreeSet <String>();
+         Set<String> otemp = new TreeSet<String>();
+         ltemp.clear();
+         utemp.clear();
+         otemp.clear();
+         String line = infile.nextLine();
+         String[] temp = line.split(" ");
+         for(String s: temp){
+            for(char c: s.toCharArray()){
+               if( Character.isLetter(c) && Character.isUpperCase(c) ) {
+                  utemp.add(c+"");
+                  upper.add(c+"");
+               }
+               else if( Character.isLetter(c) && Character.isLowerCase(c) ) {
+                  lower.add(c+"");
+                  ltemp.add(c+"");
+               
+               }
+               else{
+                  o.add(c+"");
+                  otemp.add(c+"");
+               
+               }
+            }
+            lower.retainAll(ltemp);
+            upper.retainAll(utemp);
+            o.retainAll(otemp);
+         }
+         System.out.println(line);
+         System.out.println("Lower Case: " + ltemp);
+         System.out.println("Upper Case: " + utemp);
+         System.out.println("Other: " + otemp);
+         System.out.println()
+      }
+   
+      System.out.println("Common Lowercase: " + lower);
+      System.out.println("Common Uppercase: " + upper);
+      System.out.println("Common other: " + o);      
    }
 }
 
