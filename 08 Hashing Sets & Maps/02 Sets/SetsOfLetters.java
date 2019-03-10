@@ -18,47 +18,36 @@ public class SetsOfLetters
       Set<String> lower = new TreeSet<String>();
       Set<String> upper = new TreeSet <String>();
       Set<String> o = new TreeSet<String>();
-      
       while(infile.hasNextLine()){
-         Set<String> ltemp = new TreeSet<String>();
-         Set<String> utemp = new TreeSet <String>();
-         Set<String> otemp = new TreeSet<String>();
-         ltemp.clear();
-         utemp.clear();
-         otemp.clear();
-         String line = infile.nextLine();
-         String[] temp = line.split(" ");
-         for(String s: temp){
-            for(char c: s.toCharArray()){
-               if( Character.isLetter(c) && Character.isUpperCase(c) ) {
-                  utemp.add(c+"");
-                  upper.add(c+"");
-               }
-               else if( Character.isLetter(c) && Character.isLowerCase(c) ) {
-                  lower.add(c+"");
-                  ltemp.add(c+"");
-               
-               }
-               else{
-                  o.add(c+"");
-                  otemp.add(c+"");
-               
-               }
+         Set<String> tl = new TreeSet<String>();
+         Set<String> tu = new TreeSet<String>();
+         Set<String> to = new TreeSet<String>();
+         String l = infile.nextLine();
+         for(char c: l.toCharArray()){
+            if(Character.isUpperCase(c)){
+               tu.add(c+"");
+               upper.add(c+"");
+            }else if(Character.isLowerCase(c)){
+               tl.add(c+"");
+               lower.add(c+"");
+            }else{
+               to.add(c+"");
+               o.add(c+"");
             }
-            lower.retainAll(ltemp);
-            upper.retainAll(utemp);
-            o.retainAll(otemp);
          }
-         System.out.println(line);
-         System.out.println("Lower Case: " + ltemp);
-         System.out.println("Upper Case: " + utemp);
-         System.out.println("Other: " + otemp);
-         System.out.println()
+         
+         System.out.println(l);
+         System.out.println("Lower Case: " + tl);
+         System.out.println("Upper Case: " + tu);
+         System.out.println("Other: " + to);  
+         System.out.println();
+         lower.retainAll(tl);
+         upper.retainAll(tu);
+         o.retainAll(to);
       }
-   
-      System.out.println("Common Lowercase: " + lower);
-      System.out.println("Common Uppercase: " + upper);
-      System.out.println("Common other: " + o);      
+      System.out.println("Common lower case: " + lower);
+      System.out.println("Common upper case: " + upper);
+      System.out.println("Common other: " + o);
    }
 }
 
