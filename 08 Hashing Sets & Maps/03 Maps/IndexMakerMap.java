@@ -1,5 +1,5 @@
-// Name: 
-// Date: 
+// Name: Anup Bagali
+// Date: 3/10/19
 
 import java.io.*;
 import java.util.*;  
@@ -47,9 +47,13 @@ class DocumentIndex extends TreeMap<String, TreeSet<Integer>>
    *  and for each word calls addWord(word, num).  A good way to skip punctuation
    *  and whitespace is to use String's split method, e.g., split("[., \"!?]") 
    */
-   public void addAllWords(String str, int lineNum) 
-   {
+   public void addAllWords(String str, int lineNum) {
    
+      if(str != ""){
+         for(String s: str.split("[., \"!?]")){
+            addWord(s,lineNum);
+         }
+      }
    }
 
   /** Makes the word uppercase.  If the word is already in the map, updates the lineNum.
@@ -57,12 +61,26 @@ class DocumentIndex extends TreeMap<String, TreeSet<Integer>>
    */
    public void addWord(String word, int lineNum)
    {
-   
+      String temp = word.toUpperCase();
+      if(containsKey(temp)){
+         this.get(temp).add(lineNum);
+      }else{
+         this.put(temp,new TreeSet<Integer>());
+         this.get(temp).add(lineNum);
+      }
    }
    
    public String toString()
    {
-   
+      String result = " ";
+      for(String key: this.keySet()){
+         String set = "";
+         for(Integer i: this.get(key) ) {
+            set += i + ", ";
+         }
+         result += key + set + "\n";
+      }
+      return result;
    }
 }
 
