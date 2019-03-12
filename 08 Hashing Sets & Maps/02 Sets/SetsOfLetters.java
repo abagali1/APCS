@@ -1,9 +1,9 @@
 // Name: Anup Bagali
 // Date: 3/7/19
-
+ 
 import java.util.*;
 import java.io.*;
-
+ 
 public class SetsOfLetters
 {
    public static void main(String[] args) throws FileNotFoundException
@@ -11,16 +11,14 @@ public class SetsOfLetters
       String fileName = "declarationLast.txt";
       fillTheSets(fileName);
    }
-   
+ 
    public static void fillTheSets(String fn) throws FileNotFoundException
    {
       Scanner infile = new Scanner(new File(fn));
       Set<String> lower = new TreeSet<String>();
       Set<String> upper = new TreeSet <String>();
       Set<String> o = new TreeSet<String>();
-      Set<String> cl = new TreeSet<String>(lower);
-      Set<String> cu = new TreeSet<String>(upper);
-      Set<String> co = new TreeSet<String>(o);
+      int n =0;
       while(infile.hasNextLine()){
          Set<String> tl = new TreeSet<String>();
          Set<String> tu = new TreeSet<String>();
@@ -38,22 +36,25 @@ public class SetsOfLetters
                o.add(c+"");
             }
          }
-         
+ 
          System.out.println(l);
          System.out.println("Lower Case: " + tl);
          System.out.println("Upper Case: " + tu);
          System.out.println("Other: " + to);  
          System.out.println();
-         cl.retainAll(tl);
-         cu.retainAll(tu);
-         co.retainAll(to);
+         if(n >0){
+            lower.retainAll(tl);
+            upper.retainAll(tu);
+            o.retainAll(to);
+         }
+         n++;
       }
-      System.out.println("Common lower case: " + cl);
-      System.out.println("Common upper case: " + cu);
-      System.out.println("Common other: " + co);
+      System.out.println("Common lower case: " + lower);
+      System.out.println("Common upper case: " + upper);
+      System.out.println("Common other: " + o);
    }
 }
-
+ 
 /***********************************
   ----jGRASP exec: java SetsOfLetters_teacher
  
