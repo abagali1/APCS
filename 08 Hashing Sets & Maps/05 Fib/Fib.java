@@ -1,5 +1,5 @@
-// Name: 
-// Date: 
+// Name: Anup Bagali 
+// Date: 3/12/19
 
 import java.util.*;
 
@@ -31,7 +31,7 @@ public class Fib
       long time = finish - start;
       
       System.out.print("fib(" + n + ") = " + f);
-      System.out.println(" (" + time + "nanoseconds)");		
+      System.out.println(" (" + time + " nanoseconds)");		
       System.out.println();		
    }
 }
@@ -40,6 +40,7 @@ class Fib1 implements Fibber
 {
    public Fib1()    
    {
+      
    }
    
    public int fib(int n)
@@ -57,37 +58,55 @@ class Fib2 implements Fibber
    
    public Fib2(int n)
    {
-   
+      array = new int[n];
+      array[0] = 0;
+      array[1] = 1;
+      array[2] = 1;
    }
    
    public int fib(int n)
    {
-   
+      int sum =0;
+      for(int i=3;i<n;i++){
+         array[i] = array[i-1] + array[i-2];
+      }
+      for(int i:array)
+         sum += i;
+      return sum;
    }
    
    public int[] getArray()   //nice to have
    {
-    
+      return array;
    }
 }
    
 class Fib3 implements Fibber
 {
-   private ArrayList<Integer> myFibList;
+   private ArrayList<Integer> array;
    
    public Fib3()
    {
-   
+      array = new ArrayList<Integer>();
+      array.add(0,0);
+      array.add(1,1);
+      array.add(2,1);
    }
    
    public int fib(int n)
    {
-   
+      int sum =0;
+      for(int i=3;i<n;i++){
+         array.add(i,array.get(i-1)+array.get(i-2));    
+      }
+      for(int i:array)
+         sum += i;
+      return sum;
    }
    
    public ArrayList<Integer> getArrayList()   //nice to have
    {
-      
+      return array;
    }
 }
 
@@ -97,17 +116,27 @@ class Fib4 implements Fibber
    
    public Fib4()
    {
-   
+      myFibMap = new HashMap<Integer, Integer>();
+      myFibMap.put(0,0);
+      myFibMap.put(1,1);
+      myFibMap.put(2,1);
+      
    }
    
    public int fib(int n)
    {
-   
+      int sum =0;
+      for(int i=3;i<n;i++){
+         myFibMap.put(i,myFibMap.get(i-1)+myFibMap.get(i-2));    
+      }
+      for(Integer i:myFibMap.keySet())
+         sum += myFibMap.get(i);
+      return sum;
    }
    
    public Map<Integer, Integer> getMap()  //nice to have
    {
-   
+      return myFibMap;
    }
 }
 	
