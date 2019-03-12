@@ -18,6 +18,7 @@ public class SetsOfLetters
       Set<String> lower = new TreeSet<String>();
       Set<String> upper = new TreeSet <String>();
       Set<String> o = new TreeSet<String>();
+      int n =0;
       while(infile.hasNextLine()){
          Set<String> tl = new TreeSet<String>();
          Set<String> tu = new TreeSet<String>();
@@ -41,9 +42,12 @@ public class SetsOfLetters
          System.out.println("Upper Case: " + tu);
          System.out.println("Other: " + to);  
          System.out.println();
-         lower.retainAll(tl);
-         upper.retainAll(tu);
-         o.retainAll(to);
+         if(n >0){
+            lower.retainAll(tl);
+            upper.retainAll(tu);
+            o.retainAll(to);
+         }
+         n++;
       }
       System.out.println("Common lower case: " + lower);
       System.out.println("Common upper case: " + upper);
