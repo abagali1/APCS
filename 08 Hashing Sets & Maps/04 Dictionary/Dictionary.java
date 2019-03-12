@@ -1,5 +1,5 @@
-// Name: 
-// Date: 
+// Name: Anup Bagali
+// Date: 3/12/19
 
 import java.io.*;
 import java.util.*;
@@ -29,18 +29,47 @@ public class Dictionary
    
    public static Map<String, Set<String>> makeDictionary(Scanner infile)
    {
+      Map<String,Set<String>> temp = new TreeMap<String, Set<String>>();
+      while(infile.hasNextLine()){
+         add(temp,infile.nextLine(),infile.nextLine());
+      }
+      return temp;
    }
    
    public static void add(Map<String, Set<String>> dictionary, String word, String translation)
    { 
+      if(!dictionary.containsKey(word)){
+         dictionary.put(word,new TreeSet<String>());
+         dictionary.get(word).add(translation);
+      }
+      else{
+         dictionary.get(word).add(translation);
+      
+      }
    }
    
    public static void display(Map<String, Set<String>> m)
    {
+      for(String s: m.keySet()){
+         System.out.println(s + " " + m.get(s).toString());
+      }
+      
    }
    
    public static Map<String, Set<String>> reverse(Map<String, Set<String>> dictionary)
    {
+      Map<String, Set<String>> temp = new TreeMap<String, Set<String>>();
+      Set keys = dictionary.keySet();
+      Iterator<String> it = keys.iterator();
+      
+      while(it.hasNext()){
+         String key = it.next();
+         Set<String> st = dictionary.get(key);
+         for(String s: st){
+            add(temp,s,key);
+         }
+      }
+      return temp;
    }
 }
 
