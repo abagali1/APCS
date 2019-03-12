@@ -61,18 +61,15 @@ class Fib2 implements Fibber
       array = new int[n];
       array[0] = 0;
       array[1] = 1;
-      array[2] = 1;
    }
    
    public int fib(int n)
    {
       int sum =0;
-      for(int i=3;i<n;i++){
+      for(int i=2;i<=n;i++){
          array[i] = array[i-1] + array[i-2];
       }
-      for(int i:array)
-         sum += i;
-      return sum;
+      return array[array.length-1];
    }
    
    public int[] getArray()   //nice to have
@@ -95,13 +92,10 @@ class Fib3 implements Fibber
    
    public int fib(int n)
    {
-      int sum =0;
-      for(int i=3;i<n;i++){
-         array.add(i,array.get(i-1)+array.get(i-2));    
-      }
-      for(int i:array)
-         sum += i;
-      return sum;
+      if(array.size() <= n)
+         array.add(fib(n-1)+fib(n-2));
+      return array.get(n);
+      
    }
    
    public ArrayList<Integer> getArrayList()   //nice to have
@@ -125,13 +119,9 @@ class Fib4 implements Fibber
    
    public int fib(int n)
    {
-      int sum =0;
-      for(int i=3;i<n;i++){
-         myFibMap.put(i,myFibMap.get(i-1)+myFibMap.get(i-2));    
-      }
-      for(Integer i:myFibMap.keySet())
-         sum += myFibMap.get(i);
-      return sum;
+      if(myFibMap.size() <= n)
+         myFibMap.put(n,fib(n-1)+fib(n-2));
+      return myFibMap.get(n);
    }
    
    public Map<Integer, Integer> getMap()  //nice to have
