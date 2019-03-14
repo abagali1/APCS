@@ -35,8 +35,45 @@ class Hailstone
 
    public int hailstoneMaps(int k)
    {
+      Integer c = new Integer(k);
+      if(!steps.containsKey(k)){
+         while(k != 1){
+            if(k % 2 == 0){
+               if(steps.containsKey(k/2))
+                  return steps.get(k/2);
+               if(!steps.containsKey(c))
+                  steps.put(c,1);
+               else
+                  steps.replace(c,steps.get(c)+1);
+               if(!sequence.containsKey(c))
+                  sequence.put(c, k + ", "); 
+               else
+                  sequence.replace(c,sequence.get(c) + k+", ");   
+               k = k/2;              
+            }else{
+               if(steps.containsKey((3*k)+1)){
+                  sequence.put(k,sequence.get((3*k)+1));
+                  steps.put(k,steps.get((3*k)+1+1));
+                  return steps.get((3*k)+1);
+               }   
+               if(!steps.containsKey(c))
+                  steps.put(c,1);
+               else
+                  steps.replace(c,steps.get(c)+1);
+               if(!sequence.containsKey(c))
+                  sequence.put(c, k + ", "); 
+               else
+                  sequence.replace(c,sequence.get(c) + k+", ");
+               k = 3*k +1;
+            }
+         }
+      }else{
+         return steps.get(k);
+      }
+      sequence.replace(c,sequence.get(c) + 1);   
+      return steps.get(c);    
    }
- }
+}
 
 /*********************************
 
