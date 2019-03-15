@@ -89,10 +89,16 @@ class Polynomial implements PolynomialInterface
    public Polynomial add(Polynomial other){
       Polynomial temp = new Polynomial();
       
+      for(Integer i: this.m.keySet()){
+         if(other.m.containsKey(i)){
+            temp.makeTerm(i, this.m.get(i) + other.m.get(i) );
+         }else{
+            temp.makeTerm(i,this.m.get(i));
+         }
+      }
       for(Integer i: other.m.keySet()){
-         if(m.containsKey(i)){
-            temp.m.put(i,m.get(i) + other.m.get(i));
-         }   
+         if(!this.m.containsKey(i))
+            temp.makeTerm(i,other.m.get(i));
       }
       return temp;
    }
@@ -107,7 +113,12 @@ class Polynomial implements PolynomialInterface
          if(i == 0){
             result += m.get(i);
          }else{
-            result += i + "x^"+ m.get(i);
+            if(m.get(i) == 1)
+               result = "x^" + i + " + " + result;
+            else if(i == 1)
+               result = "x" + " + " + result;
+            else
+               result = m.get(i) + "x^" + i + " + " + result;
          }
          
       }
