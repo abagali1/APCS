@@ -1,5 +1,5 @@
- // Name:    
- // Date: 
+// Name: Anup Bagali   
+// Date: 3/15/19
 
 import java.util.*;
 
@@ -52,7 +52,7 @@ public class Polynomial_Driver
       // Polynomial poly5 = new Polynomial("2x^3 + 4x^2 + 6x^1 + -3");
       // System.out.println("Map:  " + poly5.getMap());  
       // System.out.println(poly5);
-
+   
    }
 }
 interface PolynomialInterface
@@ -67,7 +67,53 @@ interface PolynomialInterface
 
 class Polynomial implements PolynomialInterface
 {
-
+   private Map<Integer,Integer> m = new TreeMap<Integer,Integer>();
+   
+   public Map<Integer,Integer> getMap(){
+      return m;
+   }
+   
+   public void makeTerm(Integer exp, Integer coef){
+      m.put(exp,coef);
+      
+   }
+   
+   public double evaluateAt(double x){
+      double result = 0;
+      for(Integer i:m.keySet()){
+         result += m.get(i) * (Math.pow(x,i));
+      }
+      return result;
+   }
+   
+   public Polynomial add(Polynomial other){
+      Polynomial temp = new Polynomial();
+      
+      for(Integer i: other.m.keySet()){
+         if(m.containsKey(i)){
+            temp.m.put(i,m.get(i) + other.m.get(i));
+         }   
+      }
+      return temp;
+   }
+   
+   public Polynomial multiply(Polynomial other){
+      return null;
+   }
+   
+   public String toString(){
+      String result = " ";
+      for(Integer i: m.keySet()){
+         if(i == 0){
+            result += m.get(i);
+         }else{
+            result += i + "x^"+ m.get(i);
+         }
+         
+      }
+      return result;
+   }
+   
 }
 
 
