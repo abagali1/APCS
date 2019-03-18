@@ -53,7 +53,7 @@ class Hailstone
             }else{
                if(steps.containsKey((3*k)+1)){
                   sequence.put(k,sequence.get((3*k)+1));
-                  steps.put(k,steps.get((3*k)+1+1));
+                  steps.put(k,steps.get((3*k)+1)+1);
                   return steps.get((3*k)+1);
                }   
                if(!steps.containsKey(c))
