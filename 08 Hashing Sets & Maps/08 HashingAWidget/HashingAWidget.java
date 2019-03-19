@@ -1,5 +1,5 @@
-// Name: 
-// Date: 
+// Name: Anup Bagali
+// Date: 3/19/19
 
 import java.util.*;
 
@@ -107,8 +107,12 @@ class Widget implements Comparable<Widget>
    }  
    
   	/* 2 new methods for this lab */
-   //public boolean equals(Object arg)
+   public boolean equals(Object arg){
+      return this.compareTo((Widget)arg)==0;
+   }
    
-   //public int hashCode()
+   public int hashCode(){
+      return this.toString().hashCode();
+   }
    
 }
