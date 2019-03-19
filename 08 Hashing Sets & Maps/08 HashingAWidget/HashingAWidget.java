@@ -108,7 +108,10 @@ class Widget implements Comparable<Widget>
    
   	/* 2 new methods for this lab */
    public boolean equals(Object arg){
-      return this.compareTo((Widget)arg)==0;
+      if( arg instanceof Widget){
+         return equals((Widget)arg);
+      }
+      return false;
    }
    
    public int hashCode(){
