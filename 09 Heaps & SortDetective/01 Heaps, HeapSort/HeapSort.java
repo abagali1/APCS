@@ -1,5 +1,5 @@
-// Name:
-// Date:
+// Name: Anup Bagali
+// Date: 3/27/19
 
 public class HeapSort
 {
@@ -39,7 +39,10 @@ public class HeapSort
    public static void sort(double[] array)
    {
       /* enter your code here */
-      
+      for(int i=array.length-1;i>=0;i--){
+         swap(array,1,i);
+         heapDown(array,1,i);
+      }
       
    
       if(array[1] > array[2])   //just an extra swap, if needed.
@@ -48,17 +51,40 @@ public class HeapSort
   
    public static void swap(double[] array, int a, int b)
    {
-   
+      double temp = array[a];
+      array[a] = array[b];
+      array[b] = temp;
    }
    
-   public static void heapDown(double[] array, int k, int size)
+   public static void heapDown(double[] array, int k, int size) //fixme rip
    {
-   
+      int left = 2*k;
+      int right = 2*k +1;
+      if(left>size){
+         return;
+      }else{
+         int maxChild = left;
+         if(right<size && array[right]>array[left]){
+            maxChild = right;
+         }
+         if(maxChild != k){
+            swap(array,k,maxChild);
+            heapDown(array,maxChild,size);
+         
+         }
+         
+      }
    }
    
    public static boolean isSorted(double[] arr)
    {
-
+      int result = 0;
+      for(int i=1;i<=arr.length-1;i++){
+         if(arr[i] > arr[i-1]){
+            result++;
+         }
+      }
+      return result == arr.length;
    }
    
    //****** Part 2 *******************************************
@@ -67,7 +93,9 @@ public class HeapSort
    public static double[] createRandom(double[] array)
    {  
       array[0] = -1;   //because it will become a heap
-       
+      for(int i=1;i<=array.length-1;i++){
+         array[i] = Math.floor( ((Math.random() * 100) + 1) *100)/100;
+      }
        
       return array;
    }
@@ -75,7 +103,9 @@ public class HeapSort
    //turn the random array into a heap
    public static void makeHeap(double[] array, int size)
    {
-   
+      for(int k =size/2;k>=1;k--){
+         heapDown(array,k,size);
+      }
    }
 }
 
