@@ -8,24 +8,24 @@ public class HeapSort
    public static void main(String[] args)
    {
       //Part 1: Given a heap, sort it. Do this part first. 
-      SIZE = 9;  
-      double heap[] = {-1,99,80,85,17,30,84,2,16,1};
+      //SIZE = 9;  
+      //double heap[] = {-1,99,80,85,17,30,84,2,16,1};
       
+      //display(heap);
+      //sort(heap);
+      //display(heap);
+      //System.out.println(isSorted(heap));
+      
+      //Part 2:  Generate 100 random numbers, make a heap, sort it.
+      SIZE = 100;
+      double[] heap = new double[SIZE + 1];
+      heap = createRandom(heap);
       display(heap);
+      makeHeap(heap, SIZE);
+      display(heap); 
       sort(heap);
       display(heap);
       System.out.println(isSorted(heap));
-      
-      //Part 2:  Generate 100 random numbers, make a heap, sort it.
-      // SIZE = 100;
-      // double[] heap = new double[SIZE + 1];
-      // heap = createRandom(heap);
-      // display(heap);
-      // makeHeap(heap, SIZE);
-      // display(heap); 
-      // sort(heap);
-      // display(heap);
-      // System.out.println(isSorted(heap));
    }
    
 	//******* Part 1 ******************************************
@@ -39,7 +39,7 @@ public class HeapSort
    public static void sort(double[] array)
    {
       /* enter your code here */
-      for(int i=array.length-1;i>=0;i--){
+      for(int i=array.length-1;i>0;i--){
          swap(array,1,i);
          heapDown(array,1,i);
       }
@@ -47,6 +47,7 @@ public class HeapSort
    
       if(array[1] > array[2])   //just an extra swap, if needed.
          swap(array, 1, 2);
+   
    }
   
    public static void swap(double[] array, int a, int b)
@@ -58,20 +59,28 @@ public class HeapSort
    
    public static void heapDown(double[] array, int k, int size) //fixme rip
    {
+   
       int left = 2*k;
       int right = 2*k +1;
       if(left>size){
          return;
-      }else{
-         int maxChild = left;
-         if(right<size && array[right]>array[left]){
-            maxChild = right;
+      }
+      else{
+         int max = k;
+         if(left<size &&  array[left]>array[max]){
+            max = left;
          }
-         if(maxChild != k){
-            swap(array,k,maxChild);
-            heapDown(array,maxChild,size);
+         if(right<size && array[right]>array[max]){
+            max = right;
+         }
+         if(array[max] < array[k])
+            return;
+         if(max != k){
+            swap(array,k,max);
+            heapDown(array,max,size);
          
          }
+      
          
       }
    }
@@ -84,7 +93,7 @@ public class HeapSort
             result++;
          }
       }
-      return result == arr.length;
+      return result == arr.length-1;
    }
    
    //****** Part 2 *******************************************
@@ -103,7 +112,7 @@ public class HeapSort
    //turn the random array into a heap
    public static void makeHeap(double[] array, int size)
    {
-      for(int k =size/2;k>=1;k--){
+      for(int k =size/2;k>0;k--){
          heapDown(array,k,size);
       }
    }
