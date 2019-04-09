@@ -1,4 +1,5 @@
-// Name:              Date:
+// Name: Anup Bagali
+// Date: 4/9/19
 import java.util.*;
 import java.io.*;
 public class deHuffman
@@ -21,9 +22,33 @@ public class deHuffman
    }
    public static TreeNode huffmanTree(Scanner huffLines)
    {
+      TreeNode tree = new TreeNode(null);
+      TreeNode root = tree;
+      while(huffLines.hasNextLine()){
+         char[] temp = huffLines.nextLine().toCharArray();
+         //tree = root;   
+         String s=temp[0]+"";
+         for(int i=1;i<=temp.length;i++){
+            if(i != temp.length){
+               if(temp[i] == 0){
+                  tree.setLeft(new TreeNode(""));
+                  tree = tree.getLeft();
+               }
+               else{
+                  tree.setRight(new TreeNode(""));
+                  tree = tree.getRight();
+               }
+            }
+            else{
+               tree.setValue(s);
+            }
+         }
+      }
+      return root;
    }
    public static String dehuff(String text, TreeNode root)
    {
+   return null;
    }
 }
 

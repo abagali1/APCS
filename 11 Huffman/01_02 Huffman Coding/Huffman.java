@@ -1,4 +1,5 @@
-// Name:        Date: 
+// Name: Anup Bagali
+// Date: 4/9/19 
 import java.util.*;
 import java.io.*;
 public class Huffman
@@ -29,7 +30,6 @@ public class Huffman
       	//Write the binary message to the hard drive using the file name ("message." + middlePart + ".txt")
          //System.out.println the scheme from the tree--needs a recursive helper method
       	//Write the scheme to the hard drive using the file name ("scheme." + middlePart + ".txt")
-         
             
    }
 }
