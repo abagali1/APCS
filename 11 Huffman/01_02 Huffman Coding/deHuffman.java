@@ -26,16 +26,18 @@ public class deHuffman
       TreeNode root = tree;
       while(huffLines.hasNextLine()){
          char[] temp = huffLines.nextLine().toCharArray();
-         //tree = root;   
+         tree = root;   
          String s=temp[0]+"";
          for(int i=1;i<=temp.length;i++){
             if(i != temp.length){
-               if(temp[i] == 0){
-                  tree.setLeft(new TreeNode(""));
+               if(temp[i] == '0'){
+                  if(tree.getLeft() == null)
+                     tree.setLeft(new TreeNode(""));
                   tree = tree.getLeft();
                }
                else{
-                  tree.setRight(new TreeNode(""));
+                  if(tree.getRight() == null)
+                     tree.setRight(new TreeNode(""));
                   tree = tree.getRight();
                }
             }
@@ -48,7 +50,24 @@ public class deHuffman
    }
    public static String dehuff(String text, TreeNode root)
    {
-   return null;
+      String result = "";
+      char[] arr = text.toCharArray();
+      TreeNode temp = root;
+      for(int i=0;i<=arr.length-1;i++){
+         if((temp.getLeft() == null && temp.getRight() == null)){
+            result += temp.getValue();
+            temp = root;
+         }
+         if(arr[i] == '0'){
+            temp = temp.getLeft();
+         }
+         else{
+            temp = temp.getRight();
+         }
+      }
+      
+      return result;
+      
    }
 }
 
