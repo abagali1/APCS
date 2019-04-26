@@ -1,4 +1,4 @@
-// Name: Anup Bagali  
+ // Name: Anup Bagali  
 // Date: 4/24/19
  
 import java.util.*;
@@ -45,7 +45,7 @@ public class AdjMat implements AdjacencyMatrix, Warshall
      
    public AdjMat(int size){
       grid = new int[size][size];
-      vertices = new HashMap<String,Integer>();
+      vertices = new TreeMap<String,Integer>();
    } 
    public Map<String,Integer> getVertices(){
       return vertices;
@@ -57,10 +57,12 @@ public class AdjMat implements AdjacencyMatrix, Warshall
       int count = 0;
       while(infile.hasNextLine()){
          String[] line = infile.nextLine().split(" ");
-         for(int i=0;i<line.length;i++){
-            grid[count][i] = Integer.parseInt(line[i]);
+         if(line.length == size){
+            for(int i=0;i<line.length;i++){
+               grid[count][i] = Integer.parseInt(line[i]);
+            }
+            count++;
          }
-         count++;
       }
    }
    public void readNames(String fileName) throws FileNotFoundException{
@@ -81,7 +83,7 @@ public class AdjMat implements AdjacencyMatrix, Warshall
       for(String s: vertices.keySet()){
          for(int i=0;i<=grid.length-1;i++){
             for(int j=0;j<=grid.length-1;j++){
-               if(isEdge(i,vertices.get(s)) && isEdge(j,vertices.get(s)) ){
+               if(grid[i][vertices.get(s)]==1 && grid[vertices.get(s)][j]==1 ){
                   grid[i][j] = 1;
                }
             }
