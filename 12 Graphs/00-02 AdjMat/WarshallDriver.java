@@ -40,7 +40,7 @@ public class WarshallDriver
       }
       
       //Extension
-      System.out.println("\n================== EXTENSION =================="); 
+      /*System.out.println("\n================== EXTENSION =================="); 
       System.out.println("List of every city's reachable cities: ");
       for(String city : g.getVertices().keySet() )
          System.out.println(city + "--> " + g.getReachables(city) );
@@ -52,7 +52,7 @@ public class WarshallDriver
          if(from.equals("-1"))
             break;
          System.out.println(g.getReachables(from));
-      }
+      }*/
    }
 }
 

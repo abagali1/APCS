@@ -1,5 +1,5 @@
-// Name:   
-// Date:
+// Name: Anup Bagali  
+// Date: 4/24/19
  
 import java.util.*;
 import java.io.*;
@@ -18,7 +18,7 @@ interface AdjacencyMatrix
    String toString();   
    int edgeCount();
    List<Integer> getNeighbors(int source);
-   //public List<String> getReachables(String from);  //Warshall extension
+   //public ListString> getReachables(String from);  //Warshall extension
 }
 
 interface Warshall      
@@ -38,24 +38,60 @@ interface Floyd
    void allPairsWeighted(); 
 }
 
-public class AdjMat implements AdjacencyMatrix 
+public class AdjMat implements AdjacencyMatrix, Warshall 
 {
    private int[][] grid = null;   //adjacency matrix representation
    private Map<String, Integer> vertices = null;   // name-->index (for Warshall & Floyd)
      
    public AdjMat(int size){
-      grid = new int[size][size+1];
+      grid = new int[size][size];
+      vertices = new HashMap<String,Integer>();
    } 
+   public Map<String,Integer> getVertices(){
+      return vertices;
+   }
+   public void readGrid(String fileName) throws FileNotFoundException{
+      Scanner infile = new Scanner(new File(fileName));
+      int size = infile.nextInt();
+      grid = new int[size][size];
+      int count = 0;
+      while(infile.hasNextLine()){
+         String[] line = infile.nextLine().split(" ");
+         for(int i=0;i<line.length;i++){
+            grid[count][i] = Integer.parseInt(line[i]);
+         }
+         count++;
+      }
+   }
+   public void readNames(String fileName) throws FileNotFoundException{
+      Scanner infile = new Scanner(new File(fileName));
+      int size = infile.nextInt();
+      int count = size;
+      while(infile.hasNextLine()){
+         vertices.put(infile.next(),size-count);
+         count--;
+      }
+   }
+   public void displayVertices(){
+      for(String s: vertices.keySet()){
+         System.out.println(vertices.get(s)+"-"+s);
+      }
+   }
+   public void allPairsReachability(){
+      for(String s: vertices.keySet()){
+         for(int i=0;i<=grid.length-1;i++){
+            for(int j=0;j<=grid.length-1;j++){
+               if(isEdge(i,vertices.get(s)) && isEdge(j,vertices.get(s)) ){
+                  grid[i][j] = 1;
+               }
+            }
+         }
+      }
+   }
    public void addEdge(int source, int target){
-      if(source >= grid.length || target >= grid[0].length-1){
-         return;
-      } 
       grid[source][target] = 1;
    }
    public void removeEdge(int source,int target){
-      if(source >= grid.length || target >= grid[0].length-1){
-         return;
-      } 
       grid[source][target] = 0;
    }
    public boolean isEdge(int source,int target){
@@ -64,10 +100,13 @@ public class AdjMat implements AdjacencyMatrix
       } 
       return grid[source][target] > 0;
    }
+   public boolean isEdge(String source, String target){
+      return grid[vertices.get(source)][vertices.get(target)] > 0;
+   }
    public int edgeCount(){
       int result = 0;
       for(int i=0;i<=grid.length-1;i++){
-         for(int j=0;j<grid[0].length-1;j++){
+         for(int j=0;j<=grid[0].length-1;j++){
             if(grid[i][j] > 0)
                result++;
          }
@@ -88,7 +127,7 @@ public class AdjMat implements AdjacencyMatrix
    public String toString(){
       String result = "";
       for(int i=0;i<=grid.length-1;i++){
-         for(int j=0;j<grid[0].length-1;j++){
+         for(int j=0;j<=grid[0].length-1;j++){
             result += grid[i][j]+ " ";
          }
          result += "\n";
