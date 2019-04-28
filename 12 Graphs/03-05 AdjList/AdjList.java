@@ -1,5 +1,5 @@
-// Name:   
-// Date:
+// Name: Anup Bagali
+// Date: 4/27/19
  
 import java.util.*;
 import java.io.*;
@@ -22,10 +22,35 @@ interface VertexInterface
 
 class Vertex implements VertexInterface 
 {
-   private final String name;
+   private String name;
    private ArrayList<Vertex> adjacencies;
-  
-  /* enter your code here  */
+   public Vertex(String name){
+      this.name = name;
+      this.adjacencies = new ArrayList<Vertex>();
+   }
+   public String getName(){
+      return this.name;
+   }
+   public ArrayList<Vertex> getAdjacencies(){
+      return this.adjacencies;
+   }
+   public void setName(String name){
+      this.name = name;
+   }
+   public void addEdge(Vertex v){
+      this.adjacencies.add(v);
+   }
+   public void removeEdge(Vertex v){
+      this.adjacencies.remove(v);
+   }
+   public String toString(){
+      String result = "";
+      for(Vertex v: this.getAdjacencies()){
+         result += v.getName() + " ";
+      }
+      result = this.getName() + " [" + result.substring(0,result.length()-1) + "]";
+      return result;
+   }
   
 }   
 
@@ -69,9 +94,52 @@ public class AdjList implements AdjListInterface  //DFS_BFS //EdgeListWithCities
 {
    private ArrayList<Vertex> vertices = new ArrayList<Vertex>();
    private Map<String, Integer> nameToIndex = new TreeMap<String, Integer>();
-  
- /* enter your code here  */
+     
+   public ArrayList<Vertex> getVertices(){
+      return this.vertices;
+   }
+   public Vertex getVertex(int i){
+      return this.vertices.get(i);
+   }
+   public Vertex getVertex(String vertexName){
+      return this.vertices.get(nameToIndex.get(vertexName));
+   }
+   public Map<String, Integer> getVertexMap(){
+      return this.nameToIndex;
+   }
+   public void addVertex(String v){
+      Vertex temp = new Vertex(v);
+      this.vertices.add(temp);
+      this.nameToIndex.put(temp.getName(),this.vertices.indexOf(temp));
+   }
+   public void addEdge(String source, String target){
+      if(nameToIndex.containsKey(source) && nameToIndex.containsKey(target)){
+         this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
+      }else if(!nameToIndex.containsKey(source) && nameToIndex.containsKey(target)){
+         this.addVertex(source);
+         this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
+      }else if(nameToIndex.containsKey(source) && !nameToIndex.containsKey(target)){
+         this.addVertex(target);
+         this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
+      }else{
+         this.addVertex(source);
+         this.addVertex(target);
+         this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
+      }
+   }
+   public String toString(){
+      String result = "";
+      for(Vertex v: this.getVertices()){
+         if(v.getAdjacencies().size() != 0)
+            result += v.toString()+"\n";
+         else
+            result += "";
+      }
+      return result;
+   }
+ 
        
 }
+
 
 
