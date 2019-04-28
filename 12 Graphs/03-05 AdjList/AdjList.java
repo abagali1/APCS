@@ -90,7 +90,7 @@ interface EdgeListWithCities
 }
 
 
-public class AdjList implements AdjListInterface  //DFS_BFS //EdgeListWithCities
+public class AdjList implements AdjListInterface, DFS_BFS //EdgeListWithCities
 {
    private ArrayList<Vertex> vertices = new ArrayList<Vertex>();
    private Map<String, Integer> nameToIndex = new TreeMap<String, Integer>();
@@ -126,6 +126,23 @@ public class AdjList implements AdjListInterface  //DFS_BFS //EdgeListWithCities
          this.addVertex(target);
          this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
       }
+   }
+   public List<Vertex> depthFirstSearch(String name){
+      return this.depthFirstSearch(this.vertices.get(nameToIndex.get(name)));
+   }
+   public List<Vertex> depthFirstSearch(Vertex v){
+      List<Vertex> result = v.getAdjacencies();
+      Stack<Vertex> stack = new Stack<Vertex>();
+      
+      stack.push(v);
+      result.add(stack.pop());
+      return null;      
+   }
+   public List<Vertex> breadthFirstSearch(String name){
+      return this.breadthFirstSearch(this.vertices.get(nameToIndex.get(name)));
+   }
+   public List<Vertex> breadthFirstSearch(Vertex v){
+      return null;
    }
    public String toString(){
       String result = "";
