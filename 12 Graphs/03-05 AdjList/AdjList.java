@@ -45,13 +45,13 @@ class Vertex implements VertexInterface
    }
    public String toString(){
       String result = "";
+      String temp = "";
       for(Vertex v: this.getAdjacencies()){
-         result += v.getName() + " ";
+         temp += v.getName() + " ";
       }
-      result = this.getName() + " [" + result.substring(0,result.length()-1) + "]";
-      return result;
+      result = this.getName() + " [" + temp;
+      return result.substring(0,result.length()-1)+"]";
    }
-  
 }   
 
 interface AdjListInterface 
@@ -108,20 +108,26 @@ public class AdjList implements AdjListInterface, DFS_BFS //EdgeListWithCities
       return this.nameToIndex;
    }
    public void addVertex(String v){
-      Vertex temp = new Vertex(v);
-      this.vertices.add(temp);
-      this.nameToIndex.put(temp.getName(),this.vertices.indexOf(temp));
+      if(!nameToIndex.containsKey(v)){
+         Vertex temp = new Vertex(v);
+         this.vertices.add(temp);
+         this.nameToIndex.put(temp.getName(),this.vertices.indexOf(temp));
+      }
    }
    public void addEdge(String source, String target){
+      
       if(nameToIndex.containsKey(source) && nameToIndex.containsKey(target)){
          this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
-      }else if(!nameToIndex.containsKey(source) && nameToIndex.containsKey(target)){
+      }
+      else if(!nameToIndex.containsKey(source) && nameToIndex.containsKey(target)){
          this.addVertex(source);
          this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
-      }else if(nameToIndex.containsKey(source) && !nameToIndex.containsKey(target)){
+      }
+      else if(nameToIndex.containsKey(source) && !nameToIndex.containsKey(target)){
          this.addVertex(target);
          this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
-      }else{
+      }
+      else{
          this.addVertex(source);
          this.addVertex(target);
          this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
@@ -131,18 +137,51 @@ public class AdjList implements AdjListInterface, DFS_BFS //EdgeListWithCities
       return this.depthFirstSearch(this.vertices.get(nameToIndex.get(name)));
    }
    public List<Vertex> depthFirstSearch(Vertex v){
-      List<Vertex> result = v.getAdjacencies();
+      List<Vertex> result = new ArrayList<Vertex>();
       Stack<Vertex> stack = new Stack<Vertex>();
       
       stack.push(v);
       result.add(stack.pop());
-      return null;      
+      ArrayList<Vertex> edges1 = v.getAdjacencies();
+      for(Vertex ve: edges1){
+         stack.push(ve);
+      }
+      while(!stack.isEmpty()){
+         Vertex temp = stack.pop();
+         if(!result.contains(temp)){
+            result.add(temp);
+            ArrayList<Vertex> edges = temp.getAdjacencies();
+            for(Vertex ve: edges){
+               stack.push(ve);
+            }
+         }
+      }
+      return result;
    }
    public List<Vertex> breadthFirstSearch(String name){
       return this.breadthFirstSearch(this.vertices.get(nameToIndex.get(name)));
    }
    public List<Vertex> breadthFirstSearch(Vertex v){
-      return null;
+      List<Vertex> result = new ArrayList<Vertex>();
+      Queue<Vertex> temp = new LinkedList<Vertex>();
+      
+      temp.add(v);
+      result.add(temp.remove());
+      ArrayList<Vertex> edges1 = v.getAdjacencies();
+      for(Vertex ve: edges1){
+         temp.add(ve);
+      }
+      while(!temp.isEmpty()){
+         Vertex vt = temp.remove();
+         if(!result.contains(vt)){
+            result.add(vt);
+            ArrayList<Vertex> edges = vt.getAdjacencies();
+            for(Vertex ve: edges){
+               temp.add(ve);
+            }
+         }
+      }
+      return result;
    }
    public String toString(){
       String result = "";
