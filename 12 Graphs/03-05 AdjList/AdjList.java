@@ -90,10 +90,11 @@ interface EdgeListWithCities
 }
 
 
-public class AdjList implements AdjListInterface, DFS_BFS //EdgeListWithCities
+public class AdjList implements AdjListInterface, DFS_BFS, EdgeListWithCities
 {
    private ArrayList<Vertex> vertices = new ArrayList<Vertex>();
    private Map<String, Integer> nameToIndex = new TreeMap<String, Integer>();
+   private int edgecount=0;
      
    public ArrayList<Vertex> getVertices(){
       return this.vertices;
@@ -106,7 +107,7 @@ public class AdjList implements AdjListInterface, DFS_BFS //EdgeListWithCities
    }
    public Map<String, Integer> getVertexMap(){
       return this.nameToIndex;
-   }
+   }   
    public void addVertex(String v){
       if(!nameToIndex.containsKey(v)){
          Vertex temp = new Vertex(v);
@@ -132,6 +133,17 @@ public class AdjList implements AdjListInterface, DFS_BFS //EdgeListWithCities
          this.addVertex(target);
          this.vertices.get(this.nameToIndex.get(source)).addEdge(this.vertices.get(this.nameToIndex.get(target)));
       }
+      edgecount++;
+   }
+   public int edgeCount(){
+      int result = 0;
+      for(Vertex v: this.vertices){
+         result += v.getAdjacencies().size();
+      }
+      return result;
+   }
+   public boolean isReachable(String source, String target){
+      return depthFirstSearch(source).contains(this.vertices.get(this.nameToIndex.get(target)));
    }
    public List<Vertex> depthFirstSearch(String name){
       return this.depthFirstSearch(this.vertices.get(nameToIndex.get(name)));
@@ -182,6 +194,21 @@ public class AdjList implements AdjListInterface, DFS_BFS //EdgeListWithCities
          }
       }
       return result;
+   }
+   public void graphFromEdgeListData(String fileName) throws FileNotFoundException{
+      Scanner infile = new Scanner(new File(fileName));
+      
+      while(infile.hasNextLine()){
+         String[] line = infile.nextLine().split(" ");
+         this.addEdge(line[0],line[1]);
+      }
+   }
+   public boolean isFullyReachable(){
+      for(String i: nameToIndex.keySet())
+         for(String j:nameToIndex.keySet())
+            if(!isReachable(i,j))
+               return false;
+      return true;
    }
    public String toString(){
       String result = "";
