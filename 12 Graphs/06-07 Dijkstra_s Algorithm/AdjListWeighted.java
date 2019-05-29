@@ -31,8 +31,8 @@ interface wVertexInterface
    String getName();
    double getMinDistance();
    void setMinDistance(double m);
-   //wVertex getPrevious();   //for Dijkstra 7
-   //void setPrevious(wVertex v);  //for Dijkstra 7
+   wVertex getPrevious();   //for Dijkstra 7
+   void setPrevious(wVertex v);  //for Dijkstra 7
    ArrayList<Edge> getAdjacencies();
    void addEdge(wVertex v, double weight);   
    int compareTo(wVertex other);
@@ -43,7 +43,7 @@ class wVertex implements Comparable<wVertex>, wVertexInterface
    private final String name;
    private ArrayList<Edge> adjacencies;
    private double minDistance = Double.POSITIVE_INFINITY;
-   //private wVertex previous;  //for building the actual path in Dijkstra 7
+   private wVertex previous;  //for building the actual path in Dijkstra 7
    
    public wVertex(String name){
       this.name = name;
@@ -58,12 +58,20 @@ class wVertex implements Comparable<wVertex>, wVertexInterface
       return this.minDistance;
    }
    
+   public wVertex getPrevious(){
+      return this.previous;
+   }
+   
    public ArrayList<Edge> getAdjacencies(){
       return this.adjacencies;
    }
    
    public void setMinDistance(double minDistance){
       this.minDistance = minDistance;
+   }
+   
+   public void setPrevious(wVertex v){
+      this.previous = v;
    }
    
    public void addEdge(wVertex v, double weight){
@@ -93,15 +101,15 @@ interface AdjListWeightedInterface
 
 /* Interface for Graphs 7:  Dijkstra with Cities 
  */
-/*
+
 interface AdjListWeightedInterfaceWithCities 
 {       
    List<String> getShortestPathTo(wVertex v);
    AdjListWeighted graphFromEdgeListData(File vertexNames, File edgeListData) throws FileNotFoundException ;
 }
-*/ 
+ 
 
-public class AdjListWeighted implements AdjListWeightedInterface  //AdjListWeightedInterfaceWithCities
+public class AdjListWeighted implements AdjListWeightedInterface, AdjListWeightedInterfaceWithCities
 {
    private List<wVertex> vertices = new ArrayList<wVertex>();
    private Map<String, Integer> nameToIndex = new HashMap<String, Integer>();
@@ -148,6 +156,26 @@ public class AdjListWeighted implements AdjListWeightedInterface  //AdjListWeigh
             }
          }
       }
+   }
+   
+   public List<String> getShortestPathTo(wVertex v){
+      
+   }
+   
+   public AdjListWeighted graphFromEdgeListData(File vertexNames, File edgeListData) throws FileNotFoundException{
+      Scanner infile = new Scanner(vertexNames);
+      AdjListWeighted result = new AdjListWeighted();
+      infile.nextInt();
+      while(infile.hasNextLine()){
+         result.addVertex(infile.nextLine());
+      }
+      
+      infile = new Scanner(edgeListData);
+      while(infile.hasNextLine()){
+         String[] temp = infile.nextLine().split(" ");
+         result.addEdge(temp[0],temp[1],Integer.parseInt(temp[2]));
+      }
+      return result;
    }
    /*  enter your code for two new methods in Graphs 7 */
    
