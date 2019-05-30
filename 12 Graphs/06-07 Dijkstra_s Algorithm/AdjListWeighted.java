@@ -1,5 +1,5 @@
 // Name: Anup Bagali
-// Date: 5/28/19
+// Date: 5/30/19
  
 import java.util.*;
 import java.io.*;
@@ -147,35 +147,40 @@ public class AdjListWeighted implements AdjListWeightedInterface, AdjListWeighte
       while(!pq.isEmpty()){
          wVertex temp = pq.remove();
          for(Edge e: temp.getAdjacencies()){
-            if(pq.contains(e.target)){
-               pq.remove(e.target);
-            }
             if(temp.getMinDistance() + e.weight < e.target.getMinDistance()){
+               if(pq.contains(e.target)){
+                  pq.remove(e.target);
+               }
                e.target.setMinDistance(temp.getMinDistance() + e.weight);
                pq.add(e.target);
+               e.target.setPrevious(temp);
             }
          }
       }
    }
    
    public List<String> getShortestPathTo(wVertex v){
-      
+      ArrayList<String> result = new ArrayList<String>();
+      while(v != null ){
+         result.add(0,v.getName());
+         v = v.getPrevious();
+      }
+      return result;
    }
    
    public AdjListWeighted graphFromEdgeListData(File vertexNames, File edgeListData) throws FileNotFoundException{
       Scanner infile = new Scanner(vertexNames);
-      AdjListWeighted result = new AdjListWeighted();
       infile.nextInt();
       while(infile.hasNextLine()){
-         result.addVertex(infile.nextLine());
+         this.addVertex(infile.next());
       }
       
       infile = new Scanner(edgeListData);
       while(infile.hasNextLine()){
          String[] temp = infile.nextLine().split(" ");
-         result.addEdge(temp[0],temp[1],Integer.parseInt(temp[2]));
+         this.addEdge(temp[0],temp[1],Integer.parseInt(temp[2]));
       }
-      return result;
+      return this;
    }
    /*  enter your code for two new methods in Graphs 7 */
    
